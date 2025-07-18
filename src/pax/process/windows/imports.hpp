@@ -1,0 +1,6 @@
+#ifndef PAX_PROCESS_WINDOWS_IMPORTS_HPP
+#define PAX_PROCESS_WINDOWS_IMPORTS_HPP
+
+#include "../imports.hpp"
+
+#endif // PAX_PROCESS_WINDOWS_IMPORTS_HPP
