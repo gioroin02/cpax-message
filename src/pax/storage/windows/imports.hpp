@@ -1,6 +1,0 @@
-#ifndef PAX_STORAGE_WINDOWS_IMPORTS_HPP
-#define PAX_STORAGE_WINDOWS_IMPORTS_HPP
-
-#include "../file_props.hpp"
-
-#endif // PAX_STORAGE_WINDOWS_IMPORTS_HPP

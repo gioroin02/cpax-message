@@ -1,6 +1,0 @@
-#ifndef PAX_MEMORY_WINDOWS_IMPORTS_HPP
-#define PAX_MEMORY_WINDOWS_IMPORTS_HPP
-
-#include "../imports.hpp"
-
-#endif // PAX_MEMORY_WINDOWS_IMPORTS_HPP

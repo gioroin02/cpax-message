@@ -1,14 +1,12 @@
-# Excluded
+# Exclude
 
-/*.*
+/*
 
-# Included
+# Include
+
+!/src
+!/cmd
 
 !/.gitignore
 
-!/src
-
 !/README.md
-
-!/build*.*
-!/clean*.*

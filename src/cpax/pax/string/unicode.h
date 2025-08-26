@@ -1,0 +1,178 @@
+#ifndef PX_STRING_UNICODE_H
+#define PX_STRING_UNICODE_H
+
+#include "import.h"
+
+typedef enum PxAscii
+{
+    PX_ASCII_NULL,
+    PX_ASCII_1,
+    PX_ASCII_2,
+    PX_ASCII_3,
+    PX_ASCII_4,
+    PX_ASCII_5,
+    PX_ASCII_6,
+    PX_ASCII_7,
+    PX_ASCII_BACK_SPACE,
+    PX_ASCII_HORIZONTAL_TAB,
+    PX_ASCII_LINE_FEED,
+    PX_ASCII_VERTICAL_TAB,
+    PX_ASCII_PAGE_FEED,
+    PX_ASCII_CARRIAGE_RETURN,
+    PX_ASCII_14,
+    PX_ASCII_15,
+    PX_ASCII_16,
+    PX_ASCII_17,
+    PX_ASCII_18,
+    PX_ASCII_19,
+    PX_ASCII_20,
+    PX_ASCII_21,
+    PX_ASCII_22,
+    PX_ASCII_23,
+    PX_ASCII_CANCEL,
+    PX_ASCII_25,
+    PX_ASCII_26,
+    PX_ASCII_ESCAPE,
+    PX_ASCII_28,
+    PX_ASCII_29,
+    PX_ASCII_30,
+    PX_ASCII_31,
+    PX_ASCII_SPACE,
+    PX_ASCII_EXCLAMATION,
+    PX_ASCII_QUOTE,
+    PX_ASCII_SHARP,
+    PX_ASCII_DOLLAR,
+    PX_ASCII_PERCENT,
+    PX_ASCII_AMPERSAND,
+    PX_ASCII_APOSTROPHE,
+    PX_ASCII_PAREN_LEFT,
+    PX_ASCII_PAREN_RIGHT,
+    PX_ASCII_ASTERISK,
+    PX_ASCII_PLUS,
+    PX_ASCII_COMMA,
+    PX_ASCII_MINUS,
+    PX_ASCII_POINT,
+    PX_ASCII_SLASH,
+    PX_ASCII_ZERO,
+    PX_ASCII_ONE,
+    PX_ASCII_TWO,
+    PX_ASCII_THREE,
+    PX_ASCII_FOUR,
+    PX_ASCII_FIVE,
+    PX_ASCII_SIX,
+    PX_ASCII_SEVEN,
+    PX_ASCII_EIGHT,
+    PX_ASCII_NINE,
+    PX_ASCII_COLON,
+    PX_ASCII_SEMI_COLON,
+    PX_ASCII_LESS,
+    PX_ASCII_EQUAL,
+    PX_ASCII_MORE,
+    PX_ASCII_QUESTION,
+    PX_ASCII_COMMERCIAL,
+    PX_ASCII_UPPER_A,
+    PX_ASCII_UPPER_B,
+    PX_ASCII_UPPER_C,
+    PX_ASCII_UPPER_D,
+    PX_ASCII_UPPER_E,
+    PX_ASCII_UPPER_F,
+    PX_ASCII_UPPER_G,
+    PX_ASCII_UPPER_H,
+    PX_ASCII_UPPER_I,
+    PX_ASCII_UPPER_J,
+    PX_ASCII_UPPER_K,
+    PX_ASCII_UPPER_L,
+    PX_ASCII_UPPER_M,
+    PX_ASCII_UPPER_N,
+    PX_ASCII_UPPER_O,
+    PX_ASCII_UPPER_P,
+    PX_ASCII_UPPER_Q,
+    PX_ASCII_UPPER_R,
+    PX_ASCII_UPPER_S,
+    PX_ASCII_UPPER_T,
+    PX_ASCII_UPPER_U,
+    PX_ASCII_UPPER_V,
+    PX_ASCII_UPPER_W,
+    PX_ASCII_UPPER_X,
+    PX_ASCII_UPPER_Y,
+    PX_ASCII_UPPER_Z,
+    PX_ASCII_SQUARE_LEFT,
+    PX_ASCII_BACK_SLASH,
+    PX_ASCII_SQUARE_RIGHT,
+    PX_ASCII_CIRCUMFLEX,
+    PX_ASCII_UNDER_SCORE,
+    PX_ASCII_BACK_TICK,
+    PX_ASCII_LOWER_A,
+    PX_ASCII_LOWER_B,
+    PX_ASCII_LOWER_C,
+    PX_ASCII_LOWER_D,
+    PX_ASCII_LOWER_E,
+    PX_ASCII_LOWER_F,
+    PX_ASCII_LOWER_G,
+    PX_ASCII_LOWER_H,
+    PX_ASCII_LOWER_I,
+    PX_ASCII_LOWER_J,
+    PX_ASCII_LOWER_K,
+    PX_ASCII_LOWER_L,
+    PX_ASCII_LOWER_M,
+    PX_ASCII_LOWER_N,
+    PX_ASCII_LOWER_O,
+    PX_ASCII_LOWER_P,
+    PX_ASCII_LOWER_Q,
+    PX_ASCII_LOWER_R,
+    PX_ASCII_LOWER_S,
+    PX_ASCII_LOWER_T,
+    PX_ASCII_LOWER_U,
+    PX_ASCII_LOWER_V,
+    PX_ASCII_LOWER_W,
+    PX_ASCII_LOWER_X,
+    PX_ASCII_LOWER_Y,
+    PX_ASCII_LOWER_Z,
+    PX_ASCII_BRACE_LEFT,
+    PX_ASCII_PIPE,
+    PX_ASCII_BRACE_RIGHT,
+    PX_ASCII_TILDE,
+    PX_ASCII_DELETE,
+}
+PxAscii;
+
+pxb8
+pxUnicodeIsValid(pxi32 value);
+
+pxb8
+pxUnicodeIsSurrogate(pxi32 value);
+
+pxb8
+pxUnicodeIsSurrogateLow(pxi32 value);
+
+pxb8
+pxUnicodeIsSurrogateHigh(pxi32 value);
+
+pxb8
+pxUnicodeIsAscii(pxi32 value);
+
+pxb8
+pxAsciiIsSpace(pxi32 value);
+
+pxb8
+pxAsciiIsNumeric(pxi32 value, pxuword radix);
+
+pxb8
+pxAsciiIsDigit(pxi32 value, pxuword radix);
+
+pxb8
+pxAsciiIsLetter(pxi32 value);
+
+pxb8
+pxAsciiIsLetterUpper(pxi32 value);
+
+pxb8
+pxAsciiIsLetterLower(pxi32 value);
+
+pxi32
+pxAsciiDigitFromValue(pxuword value, pxuword radix, pxb8 upper);
+
+pxuword
+pxAsciiValueFromDigit(pxi32 value, pxuword radix);
+
+#endif // PX_STRING_UNICODE_H

@@ -1,6 +1,0 @@
-#ifndef PAX_NETWORK_WINDOWS_IMPORTS_HPP
-#define PAX_NETWORK_WINDOWS_IMPORTS_HPP
-
-#include "../address.hpp"
-
-#endif // PAX_NETWORK_WINDOWS_IMPORTS_HPP
