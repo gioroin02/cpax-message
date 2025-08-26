@@ -12,4 +12,4 @@ set "pax=%base% %memory% %string% %structure%"
 set "src=%pax% src\message\export.c"
 set "dir=src\message\test"
 
-zig cc %src% "%dir%\broker.c" -o message_broker.exe
+zig cc %src% "%dir%\message.c" -o message_message.exe

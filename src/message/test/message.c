@@ -30,12 +30,15 @@ typedef enum EventType
 }
 EventType;
 
-typedef struct EventWindowClose {
-
-} EventWindowClose;
+typedef struct EventWindowClose
+{
+    pxiword window;
+}
+EventWindowClose;
 
 typedef struct EventWindowResize
 {
+    pxiword window;
     pxiword size_x;
     pxiword size_y;
 }
@@ -43,6 +46,7 @@ EventWindowResize;
 
 typedef struct EventWindowMove
 {
+    pxiword window;
     pxiword coords_x;
     pxiword coords_y;
 }
@@ -92,19 +96,19 @@ timeHandler(void* ctxt, pxuword type, void* memory, pxiword stride)
 
     self->tick += 1;
 
-    printf("    " RED("TIME") " # type = " BLUE("'%.*s'") ", time = " PURPLE("%llu") "\n",
+    printf(RED("TIME") " --- | type = " BLUE("'%.*s'") ", time = " PURPLE("%llu") "\n",
         pxCast(int, name.length), name.memory, self->tick);
 
     switch (type) {
         case EVENT_WINDOW_CLOSE: break;
 
         case EVENT_WINDOW_RESIZE: {
-            printf("     | size_x: %lli, size_y: %lli\n",
+            printf("    size_x: %lli\n    size_y: %lli\n",
                 event->window_resize.size_x, event->window_resize.size_y);
         } break;
 
         case EVENT_WINDOW_MOVE: {
-            printf("     | coords_x: %lli, coords_y: %lli\n",
+            printf("    coords_x: %lli\n    coords_y: %lli\n",
                 event->window_move.coords_x, event->window_move.coords_y);
         } break;
 
@@ -118,19 +122,19 @@ gameplayHandler(void* ctxt, pxuword type, void* memory, pxiword stride)
     EventBody* event = pxCast(EventBody*, memory);
     PxString8  name  = EVENT_NAMES[type];
 
-    printf(RED("GAMEPLAY") " # type = " BLUE("'%.*s'") "\n",
+    printf(RED("GAMEPLAY") " | type = " BLUE("'%.*s'") "\n",
         pxCast(int, name.length), name.memory);
 
     switch (type) {
         case EVENT_WINDOW_CLOSE: break;
 
         case EVENT_WINDOW_RESIZE: {
-            printf("     | size_x: %llu, size_y: %llu\n",
+            printf("    size_x: %llu\n    size_y: %llu\n",
                 event->window_resize.size_x, event->window_resize.size_y);
         } break;
 
         case EVENT_WINDOW_MOVE: {
-            printf("     | coords_x: %llu, coords_y: %llu\n",
+            printf("    coords_x: %llu\n    coords_y: %llu\n",
                 event->window_move.coords_x, event->window_move.coords_y);
         } break;
 
@@ -144,19 +148,19 @@ graphicsHandler(void* ctxt, pxuword type, void* memory, pxiword stride)
     EventBody* event = pxCast(EventBody*, memory);
     PxString8  name  = EVENT_NAMES[type];
 
-    printf(RED("GRAPHICS") " # type = " BLUE("'%.*s'") "\n",
+    printf(RED("GRAPHICS") " | type = " BLUE("'%.*s'") "\n",
         pxCast(int, name.length), name.memory);
 
     switch (type) {
         case EVENT_WINDOW_CLOSE: break;
 
         case EVENT_WINDOW_RESIZE: {
-            printf("     | size_x: %llu, size_y: %llu\n",
+            printf("    size_x: %llu\n    size_y: %llu\n",
                 event->window_resize.size_x, event->window_resize.size_y);
         } break;
 
         case EVENT_WINDOW_MOVE: {
-            printf("     | coords_x: %llu, coords_y: %llu\n",
+            printf("    coords_x: %llu\n    coords_y: %llu\n",
                 event->window_move.coords_x, event->window_move.coords_y);
         } break;
 
@@ -169,40 +173,77 @@ main(int argc, char** argv)
 {
     PxArena arena = pxMemoryReserve(16);
 
-    PxMessageBroker broker = pxMessageBrokerReserve(&arena, 256);
+    PxMessageQueue  queue  = pxMessageQueueReserve(&arena, 256);
+    PxMessageBroker broker = pxMessageBrokerMake(&arena);
 
     Timer timer = {.tick = 256};
 
     pxMessageBrokerAttach(&broker,
-        &arena, EVENT_NONE, &timeHandler, &timer);
+        EVENT_NONE, &timeHandler, &timer);
 
     pxMessageBrokerAttach(&broker,
-        &arena, EVENT_WINDOW_CLOSE, &gameplayHandler, 0);
+        EVENT_WINDOW_CLOSE, &gameplayHandler, 0);
 
     pxMessageBrokerAttach(&broker,
-        &arena, EVENT_WINDOW_MOVE, &gameplayHandler, 0);
+        EVENT_WINDOW_MOVE, &gameplayHandler, 0);
 
     pxMessageBrokerAttach(&broker,
-        &arena, EVENT_WINDOW_RESIZE, &graphicsHandler, 0);
+        EVENT_WINDOW_RESIZE, &graphicsHandler, 0);
 
-    EventWindowClose window_close = {};
+    EventWindowClose  window_close  = {0};
+    EventWindowResize window_resize = {0};
+    EventWindowMove   window_move   = {0};
 
-    pxMessageBrokerRetain(&broker,
-        &arena, EVENT_WINDOW_CLOSE, EventBody, &window_close);
+    window_close = (EventWindowClose) {.window = 1};
 
-    EventWindowResize window_resize = {
-        .size_x = 10, .size_y = 156,
+    pxMessageQueueInsert(&queue, &arena,
+        EVENT_WINDOW_CLOSE, EventBody, &window_close);
+
+    window_resize = (EventWindowResize) {
+        .window = 1, .size_x = 10, .size_y = 156,
     };
 
-    pxMessageBrokerRetain(&broker,
-        &arena, EVENT_WINDOW_RESIZE, EventBody, &window_resize);
+    pxMessageQueueInsert(&queue, &arena,
+        EVENT_WINDOW_RESIZE, EventBody, &window_resize);
 
-    EventWindowMove window_move = {
-        .coords_x = 34, .coords_y = 345,
+    printf("IMMEDIATE\n");
+
+    printf("\n");
+
+    window_move = (EventWindowMove) {
+        .window = 1, .coords_x = 34, .coords_y = 345,
     };
 
     pxMessageBrokerPublish(&broker,
         EVENT_WINDOW_MOVE, EventBody, &window_move);
 
-    pxMessageBrokerNotify(&broker);
+    printf("\n");
+
+    printf("RETAINED\n");
+
+    printf("\n");
+
+    pxMessageBrokerPublishQueue(&broker, &queue);
+
+    window_close = (EventWindowClose) {.window = 1};
+
+    pxMessageQueueInsert(&queue, &arena,
+        EVENT_WINDOW_CLOSE, EventBody, &window_close);
+
+    window_resize = (EventWindowResize) {
+        .window = 1, .size_x = 10, .size_y = 156,
+    };
+
+    pxMessageQueueInsert(&queue, &arena,
+        EVENT_WINDOW_RESIZE, EventBody, &window_resize);
+
+    pxMessageBrokerDetach(&broker, EVENT_NONE, &timeHandler, &timer);
+
+    printf("\n");
+
+    printf("RETAINED\n");
+
+    printf("\n");
+
+    pxMessageBrokerPublishQueue(&broker, &queue);
 }
