@@ -86,7 +86,7 @@ pxSocketUdpWrite(PxSocketUdp self, PxBuffer8* buffer)
 
     pxiword amount = __pxSocketUdpWriteMemory__(self, memory, size);
 
-    buffer->size += amount;
+    buffer->size -= amount;
     buffer->head  = (buffer->head + amount) % buffer->length;
 
     return amount;
@@ -110,7 +110,7 @@ pxSocketUdpWriteAddr(PxSocketUdp self, PxBuffer8* buffer, PxAddress address, pxu
 
     pxiword amount = __pxSocketUdpWriteMemoryAddr__(self, memory, size, address, port);
 
-    buffer->size += amount;
+    buffer->size -= amount;
     buffer->head  = (buffer->head + amount) % buffer->length;
 
     return amount;

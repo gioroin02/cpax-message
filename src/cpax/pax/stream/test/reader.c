@@ -15,7 +15,7 @@ readBytePerByte(PxReader* reader)
 
         printf("\n");
 
-        byte = pxReaderDrop(reader, 1);
+        byte = pxReaderSkip(reader, 1);
     }
 }
 

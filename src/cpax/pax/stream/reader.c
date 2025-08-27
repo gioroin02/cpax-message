@@ -41,7 +41,7 @@ pxReaderFill(PxReader* self)
 }
 
 pxu8
-pxReaderDrop(PxReader* self, pxiword offset)
+pxReaderSkip(PxReader* self, pxiword offset)
 {
     if (offset < 0) return 0;
 
@@ -61,13 +61,15 @@ pxReaderDrop(PxReader* self, pxiword offset)
 pxu8
 pxReaderPeek(PxReader* self, pxiword offset)
 {
-    if (offset < 0) return 0;
+    if (offset < 0 || offset >= self->buffer->length)
+        return 0;
 
     if (offset >= self->buffer->size) {
-        if (offset >= self->buffer->length) return 0;
+        pxiword length = offset - self->buffer->size + 1;
+        pxiword amount = 0;
 
-        for (pxiword i = 0; i < offset - self->buffer->size + 1;) {
-            pxiword amount = pxReaderFill(self);
+        for (pxiword i = 0; i < length;) {
+            amount = pxReaderFill(self);
 
             if (amount != 0)
                 i += amount;
@@ -89,7 +91,7 @@ pxReaderPeekString(PxReader* self, PxArena* arena, pxiword length)
     pxiword diff   = 0;
     pxu8    byte   = pxReaderPeek(self, 0);
 
-    while (byte != 0 && diff <= length) {
+    while (byte != 0 && diff < length) {
         result[diff] = byte;
 
         diff += 1;
@@ -114,7 +116,7 @@ pxReaderPeekLine(PxReader* self, PxArena* arena, pxiword length)
     pxiword diff   = 0;
     pxu8    byte   = pxReaderPeek(self, 0);
 
-    while (byte != 0 && byte != 10 && diff <= length) {
+    while (byte != 0 && byte != 10 && diff < length) {
         result[diff] = byte;
 
         diff += 1;
@@ -139,11 +141,11 @@ pxReaderString(PxReader* self, PxArena* arena, pxiword length)
     pxiword diff   = 0;
     pxu8    byte   = pxReaderPeek(self, 0);
 
-    while (byte != 0 && diff <= length) {
+    while (byte != 0 && diff < length) {
         result[diff] = byte;
 
         diff += 1;
-        byte  = pxReaderDrop(self, 1);
+        byte  = pxReaderSkip(self, 1);
     }
 
     if (diff < length)
@@ -164,14 +166,14 @@ pxReaderLine(PxReader* self, PxArena* arena, pxiword length)
     pxiword diff   = 0;
     pxu8    byte   = pxReaderPeek(self, 0);
 
-    while (byte != 0 && byte != 10 && diff <= length) {
+    while (byte != 0 && byte != 10 && diff < length) {
         result[diff] = byte;
 
         diff += 1;
-        byte  = pxReaderDrop(self, 1);
+        byte  = pxReaderSkip(self, 1);
     }
 
-    byte = pxReaderDrop(self, 1);
+    byte = pxReaderSkip(self, 1);
 
     if (diff < length)
         pxArenaRewind(arena, offset + diff + 1);

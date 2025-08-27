@@ -24,7 +24,7 @@ pxiword
 pxReaderFill(PxReader* self);
 
 pxu8
-pxReaderDrop(PxReader* self, pxiword offset);
+pxReaderSkip(PxReader* self, pxiword offset);
 
 pxu8
 pxReaderPeek(PxReader* self, pxiword offset);

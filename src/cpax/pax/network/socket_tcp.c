@@ -84,7 +84,7 @@ pxSocketTcpWrite(PxSocketTcp self, PxBuffer8* buffer)
 
     pxiword amount = __pxSocketTcpWriteMemory__(self, memory, size);
 
-    buffer->size += amount;
+    buffer->size -= amount;
     buffer->head  = (buffer->head + amount) % buffer->length;
 
     return amount;

@@ -254,7 +254,7 @@ pxWindowsSocketUdpWriteMemory(PxWindowsSocketUdp* self, pxu8* memory, pxiword le
 {
     for (pxiword i = 0; i < length;) {
         char* mem = pxCast(char*, memory + i);
-        int   len = pxCast(int,   length + i);
+        int   len = pxCast(int,   length - i);
 
         pxiword amount = send(self->handle, mem, len, 0);
 
@@ -301,7 +301,7 @@ pxWindowsSocketUdpWriteMemoryAddr(PxWindowsSocketUdp* self, pxu8* memory, pxiwor
 
     for (pxiword i = 0; i < length;) {
         char* mem = pxCast(char*, memory + i);
-        int   len = pxCast(int,   length + i);
+        int   len = pxCast(int,   length - i);
 
         pxiword amount = sendto(self->handle, mem, len, 0,
             pxSockUdpAddr(&data), size);
