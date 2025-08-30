@@ -23,11 +23,11 @@ typedef struct sockaddr_in6     PxSockTcpIp6;
 #define pxSockTcpIp4(x)  pxCast(PxSockTcpIp4*, x)
 #define pxSockTcpIp6(x)  pxCast(PxSockTcpIp6*, x)
 
-#define pxSockTcpIp4Addr(x) pxCast(void*,  &pxSockTcpIp4(&x)->sin_addr.s_addr)
-#define pxSockTcpIp4Port(x) pxCast(pxu16*, &pxSockTcpIp4(&x)->sin_port)
+#define pxSockTcpIp4Addr(x) pxCast(void*,  &pxSockTcpIp4(x)->sin_addr.s_addr)
+#define pxSockTcpIp4Port(x) pxCast(pxu16*, &pxSockTcpIp4(x)->sin_port)
 
-#define pxSockTcpIp6Addr(x) pxCast(void*,  pxSockTcpIp6(&x)->sin6_addr.s6_addr)
-#define pxSockTcpIp6Port(x) pxCast(pxu16*, &pxSockTcpIp6(&x)->sin6_port)
+#define pxSockTcpIp6Addr(x) pxCast(void*,  pxSockTcpIp6(x)->sin6_addr.s6_addr)
+#define pxSockTcpIp6Port(x) pxCast(pxu16*, &pxSockTcpIp6(x)->sin6_port)
 
 typedef struct PxWindowsSocketTcp
 {
@@ -58,9 +58,9 @@ pxWindowsSocketTcpCreate(PxArena* arena, PxAddressType type)
 
         if (result->handle != INVALID_SOCKET)
             return result;
-
-        pxArenaRewind(arena, offset);
     }
+
+    pxArenaRewind(arena, offset);
 
     return 0;
 }
@@ -86,18 +86,18 @@ pxWindowsSocketTcpGetAddress(PxWindowsSocketTcp* self)
         case AF_INET: {
             result.type = PX_ADDRESS_TYPE_IP4;
 
-            void* addr = pxSockTcpIp4Addr(self->address);
+            void* addr = pxSockTcpIp4Addr(&self->address);
 
-            pxMemoryCopy(&result.ip4.memory, addr,
+            pxMemoryCopy(result.ip4.memory, addr,
                 PX_ADDRESS_IP4_GROUPS, 1);
         } break;
 
         case AF_INET6: {
             result.type = PX_ADDRESS_TYPE_IP6;
 
-            void* addr = pxSockTcpIp6Addr(self->address);
+            void* addr = pxSockTcpIp6Addr(&self->address);
 
-            pxMemoryCopy(&result.ip6.memory, addr,
+            pxMemoryCopy(result.ip6.memory, addr,
                 PX_ADDRESS_IP6_GROUPS, 2);
         } break;
 
@@ -110,17 +110,21 @@ pxWindowsSocketTcpGetAddress(PxWindowsSocketTcp* self)
 pxu16
 pxWindowsSocketTcpGetPort(PxWindowsSocketTcp* self)
 {
+    pxu16 temp = 0;
+
     switch (self->address.ss_family) {
         case AF_INET:
-            return *pxSockTcpIp4Port(self->address);
+            temp = *pxSockTcpIp4Port(&self->address);
+        break;
 
         case AF_INET6:
-            return *pxSockTcpIp6Port(self->address);
+            temp = *pxSockTcpIp6Port(&self->address);
+        break;
 
         default: break;
     }
 
-    return 0;
+    return pxU16LocalFromNet(temp);
 }
 
 pxb8
@@ -145,10 +149,10 @@ pxWindowsSocketTcpBind(PxWindowsSocketTcp* self, PxAddress address, pxu16 port)
             data.ss_family = AF_INET;
             size           = PX_SOCK_TCP_IP4_SIZE;
 
-            pxMemoryCopy(pxSockTcpIp4Addr(data),
-                &address.ip4.memory, PX_ADDRESS_IP4_GROUPS, 1);
+            pxMemoryCopy(pxSockTcpIp4Addr(&data),
+                address.ip4.memory, PX_ADDRESS_IP4_GROUPS, 1);
 
-            pxMemoryNetCopyLocal(pxSockTcpIp4Port(data),
+            pxMemoryNetCopyLocal(pxSockTcpIp4Port(&data),
                 &port, 1, 2);
         } break;
 
@@ -156,10 +160,10 @@ pxWindowsSocketTcpBind(PxWindowsSocketTcp* self, PxAddress address, pxu16 port)
             data.ss_family = AF_INET6;
             size           = PX_SOCK_TCP_IP6_SIZE;
 
-            pxMemoryCopy(pxSockTcpIp6Addr(data),
-                &address.ip6.memory, PX_ADDRESS_IP6_GROUPS, 2);
+            pxMemoryCopy(pxSockTcpIp6Addr(&data),
+                address.ip6.memory, PX_ADDRESS_IP6_GROUPS, 2);
 
-            pxMemoryNetCopyLocal(pxSockTcpIp6Port(data),
+            pxMemoryNetCopyLocal(pxSockTcpIp6Port(&data),
                 &port, 1, 2);
         } break;
 
@@ -194,10 +198,10 @@ pxWindowsSocketTcpConnect(PxWindowsSocketTcp* self, PxAddress address, pxu16 por
             data.ss_family = AF_INET;
             size           = PX_SOCK_TCP_IP4_SIZE;
 
-            pxMemoryCopy(pxSockTcpIp4Addr(data),
-                &address.ip4.memory, PX_ADDRESS_IP4_GROUPS, 1);
+            pxMemoryCopy(pxSockTcpIp4Addr(&data),
+                address.ip4.memory, PX_ADDRESS_IP4_GROUPS, 1);
 
-            pxMemoryNetCopyLocal(pxSockTcpIp4Port(data),
+            pxMemoryNetCopyLocal(pxSockTcpIp4Port(&data),
                 &port, 1, 2);
         } break;
 
@@ -205,10 +209,10 @@ pxWindowsSocketTcpConnect(PxWindowsSocketTcp* self, PxAddress address, pxu16 por
             data.ss_family = AF_INET6;
             size           = PX_SOCK_TCP_IP6_SIZE;
 
-            pxMemoryCopy(pxSockTcpIp6Addr(data),
-                &address.ip6.memory, PX_ADDRESS_IP6_GROUPS, 2);
+            pxMemoryCopy(pxSockTcpIp6Addr(&data),
+                address.ip6.memory, PX_ADDRESS_IP6_GROUPS, 2);
 
-            pxMemoryNetCopyLocal(pxSockTcpIp6Port(data),
+            pxMemoryNetCopyLocal(pxSockTcpIp6Port(&data),
                 &port, 1, 2);
         } break;
 
@@ -242,9 +246,9 @@ pxWindowsSocketTcpAccept(PxWindowsSocketTcp* self, PxArena* arena)
 
         if (result->handle != INVALID_SOCKET)
             return result;
-
-        pxArenaRewind(arena, offset);
     }
+
+    pxArenaRewind(arena, offset);
 
     return 0;
 }

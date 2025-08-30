@@ -372,8 +372,7 @@ pxString32SplitMemory(PxString32 self, pxu32* memory, pxiword length, PxString32
     pxiword stop  = self.length;
     pxiword index = self.length;
 
-    if (pxString32FindFirstMemory(self, start, memory, length, &index) == 0)
-        return 0;
+    pxString32FindFirstMemory(self, start, memory, length, &index);
 
     if (left != 0) *left = pxString32Slice(self, start, index);
 

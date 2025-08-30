@@ -11,9 +11,17 @@
     #define __pxMemoryReserve__  pxWindowsMemoryReserve
     #define __pxMemoryRelease__  pxWindowsMemoryRelease
 
+#elif PX_SYSTEM == PX_SYSTEM_LINUX
+
+    #include "../../linux/memory/system.c"
+
+    #define __pxMemoryPageSize__ pxLinuxMemoryPageSize
+    #define __pxMemoryReserve__  pxLinuxMemoryReserve
+    #define __pxMemoryRelease__  pxLinuxMemoryRelease
+
 #else
 
-    #error "Unknown platform
+    #error "Unknown platform"
 
 #endif
 

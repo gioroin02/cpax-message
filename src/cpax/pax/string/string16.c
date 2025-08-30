@@ -372,8 +372,7 @@ pxString16SplitMemory(PxString16 self, pxu16* memory, pxiword length, PxString16
     pxiword stop  = self.length;
     pxiword index = self.length;
 
-    if (pxString16FindFirstMemory(self, start, memory, length, &index) == 0)
-        return 0;
+    pxString16FindFirstMemory(self, start, memory, length, &index);
 
     if (left != 0) *left = pxString16Slice(self, start, index);
 

@@ -8,11 +8,11 @@
 
 #ifndef PX_WORD
 
-    #if _WIN64 || __PL64__ || __x86_64__ || __amd64__ || __aarch64__
+    #if defined(_WIN64) || defined(__PL64__) || defined(__x86_64__) || defined(__amd64__) || defined(__aarch64__)
 
         #define PX_WORD PX_WORD_64
 
-    #elif _WIN32 || __ILP32__ || _i386_
+    #elif defined(_WIN32) || defined(__ILP32__) || defined(_i386_)
 
         #define PX_WORD PX_WORD_32
 
@@ -26,13 +26,18 @@
 
 #define PX_SYSTEM_NONE    0
 #define PX_SYSTEM_WINDOWS 1
-#define PX_SYSTEM_MAX     2
+#define PX_SYSTEM_LINUX   2
+#define PX_SYSTEM_MAX     3
 
 #ifndef PX_SYSTEM
 
-    #if _WIN32
+    #if defined(_WIN32)
 
         #define PX_SYSTEM PX_SYSTEM_WINDOWS
+
+    #elif defined(__linux__)
+
+        #define PX_SYSTEM PX_SYSTEM_LINUX
 
     #else
 

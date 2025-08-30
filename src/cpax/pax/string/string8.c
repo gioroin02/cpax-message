@@ -372,8 +372,7 @@ pxString8SplitMemory(PxString8 self, pxu8* memory, pxiword length, PxString8* le
     pxiword stop  = self.length;
     pxiword index = self.length;
 
-    if (pxString8FindFirstMemory(self, start, memory, length, &index) == 0)
-        return 0;
+    pxString8FindFirstMemory(self, start, memory, length, &index);
 
     if (left != 0) *left = pxString8Slice(self, start, index);
 
