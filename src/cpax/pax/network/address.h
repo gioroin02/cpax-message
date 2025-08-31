@@ -28,10 +28,10 @@ PxAddress
 pxAddressAny(PxAddressType type);
 
 PxAddress
-pxAddressLocalHost(PxAddressType type);
+pxAddressLocalhost(PxAddressType type);
 
 pxb8
-pxAddressFromString(PxAddress* self, PxAddressType type, PxString8 string);
+pxAddressFromString8(PxAddress* self, PxAddressType type, PxString8 string);
 
 pxb8
 pxAddressIsEqual(PxAddress self, PxAddress value);

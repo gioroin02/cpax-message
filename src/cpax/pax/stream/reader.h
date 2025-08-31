@@ -30,13 +30,13 @@ pxu8
 pxReaderPeek(PxReader* self, pxiword offset);
 
 PxString8
-pxReaderPeekString(PxReader* self, PxArena* arena, pxiword length);
+pxReaderPeekString8(PxReader* self, PxArena* arena, pxiword length);
 
 PxString8
 pxReaderPeekLine(PxReader* self, PxArena* arena, pxiword length);
 
 PxString8
-pxReaderString(PxReader* self, PxArena* arena, pxiword length);
+pxReaderString8(PxReader* self, PxArena* arena, pxiword length);
 
 PxString8
 pxReaderLine(PxReader* self, PxArena* arena, pxiword length);

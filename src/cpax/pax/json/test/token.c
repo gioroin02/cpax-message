@@ -125,7 +125,7 @@ main(int argc, char** argv)
     PxBuffer8 source = pxBuffer8Reserve(&arena, 256);
     PxBuffer8 buffer = pxBuffer8Reserve(&arena, 256);
 
-    pxBuffer8WriteStringTail(&source, ENTITY);
+    pxBuffer8WriteString8Tail(&source, ENTITY);
 
     printf(YELLOW("[start]") "\n%.*s\n" YELLOW("[stop]") "\n",
         pxCast(int, source.size), source.memory);

@@ -82,18 +82,18 @@ pxSocketTcpWrite(PxSocketTcp self, PxBuffer8* buffer)
 
     if (size <= 0) return 0;
 
-    pxiword amount = __pxSocketTcpWriteMemory__(self, memory, size);
+    pxiword temp = pxSocketTcpWriteMemory(self, memory, size, 1);
 
-    buffer->size -= amount;
-    buffer->head  = (buffer->head + amount) % buffer->length;
+    buffer->size -= temp;
+    buffer->head  = (buffer->head + temp) % buffer->length;
 
-    return amount;
+    return temp;
 }
 
 pxiword
-pxSocketTcpWriteMemory(PxSocketTcp self, pxu8* memory, pxiword length)
+pxSocketTcpWriteMemory(PxSocketTcp self, void* memory, pxiword amount, pxiword stride)
 {
-    return __pxSocketTcpWriteMemory__(self, memory, length);
+    return __pxSocketTcpWriteMemory__(self, memory, amount, stride);
 }
 
 pxiword
@@ -106,18 +106,18 @@ pxSocketTcpRead(PxSocketTcp self, PxBuffer8* buffer)
 
     if (size <= 0) return 0;
 
-    pxiword amount = __pxSocketTcpReadMemory__(self, memory, size);
+    pxiword temp = pxSocketTcpReadMemory(self, memory, size, 1);
 
-    buffer->size += amount;
-    buffer->tail  = (buffer->tail + amount) % buffer->length;
+    buffer->size += temp;
+    buffer->tail  = (buffer->tail + temp) % buffer->length;
 
-    return amount;
+    return temp;
 }
 
 pxiword
-pxSocketTcpReadMemory(PxSocketTcp self, pxu8* memory, pxiword length)
+pxSocketTcpReadMemory(PxSocketTcp self, void* memory, pxiword amount, pxiword stride)
 {
-    return __pxSocketTcpReadMemory__(self, memory, length);
+    return __pxSocketTcpReadMemory__(self, memory, amount, stride);
 }
 
 PxWriter

@@ -16,9 +16,9 @@
     #define __pxSocketUdpConnect__         pxWindowsSocketUdpConnect
     #define __pxSocketUdpAccept__          pxWindowsSocketUdpAccept
     #define __pxSocketUdpWriteMemory__     pxWindowsSocketUdpWriteMemory
-    #define __pxSocketUdpWriteMemoryAddr__ pxWindowsSocketUdpWriteMemoryAddr
+    #define __pxSocketUdpWriteHostMemory__ pxWindowsSocketUdpWriteHostMemory
     #define __pxSocketUdpReadMemory__      pxWindowsSocketUdpReadMemory
-    #define __pxSocketUdpReadMemoryAddr__  pxWindowsSocketUdpReadMemoryAddr
+    #define __pxSocketUdpReadHostMemory__  pxWindowsSocketUdpReadHostMemory
 
 #else
 
@@ -84,22 +84,22 @@ pxSocketUdpWrite(PxSocketUdp self, PxBuffer8* buffer)
 
     if (size <= 0) return 0;
 
-    pxiword amount = __pxSocketUdpWriteMemory__(self, memory, size);
+    pxiword temp = pxSocketUdpWriteMemory(self, memory, size, 1);
 
-    buffer->size -= amount;
-    buffer->head  = (buffer->head + amount) % buffer->length;
+    buffer->size -= temp;
+    buffer->head  = (buffer->head + temp) % buffer->length;
 
-    return amount;
+    return temp;
 }
 
 pxiword
-pxSocketUdpWriteMemory(PxSocketUdp self, pxu8* memory, pxiword length)
+pxSocketUdpWriteMemory(PxSocketUdp self, void* memory, pxiword amount, pxiword stride)
 {
-    return __pxSocketUdpWriteMemory__(self, memory, length);
+    return __pxSocketUdpWriteMemory__(self, memory, amount, stride);
 }
 
 pxiword
-pxSocketUdpWriteAddr(PxSocketUdp self, PxBuffer8* buffer, PxAddress address, pxu16 port)
+pxSocketUdpWriteHost(PxSocketUdp self, PxBuffer8* buffer, PxAddress address, pxu16 port)
 {
     pxBuffer8Normalize(buffer);
 
@@ -108,18 +108,18 @@ pxSocketUdpWriteAddr(PxSocketUdp self, PxBuffer8* buffer, PxAddress address, pxu
 
     if (size <= 0) return 0;
 
-    pxiword amount = __pxSocketUdpWriteMemoryAddr__(self, memory, size, address, port);
+    pxiword temp = pxSocketUdpWriteHostMemory(self, memory, size, 1, address, port);
 
-    buffer->size -= amount;
-    buffer->head  = (buffer->head + amount) % buffer->length;
+    buffer->size -= temp;
+    buffer->head  = (buffer->head + temp) % buffer->length;
 
-    return amount;
+    return temp;
 }
 
 pxiword
-pxSocketUdpWriteMemoryAddr(PxSocketUdp self, pxu8* memory, pxiword length, PxAddress address, pxu16 port)
+pxSocketUdpWriteHostMemory(PxSocketUdp self, void* memory, pxiword amount, pxiword stride, PxAddress address, pxu16 port)
 {
-    return __pxSocketUdpWriteMemoryAddr__(self, memory, length, address, port);
+    return __pxSocketUdpWriteHostMemory__(self, memory, amount, stride, address, port);
 }
 
 pxiword
@@ -132,22 +132,22 @@ pxSocketUdpRead(PxSocketUdp self, PxBuffer8* buffer)
 
     if (size <= 0) return 0;
 
-    pxiword amount = __pxSocketUdpReadMemory__(self, memory, size);
+    pxiword temp = pxSocketUdpReadMemory(self, memory, size, 1);
 
-    buffer->size += amount;
-    buffer->tail  = (buffer->tail + amount) % buffer->length;
+    buffer->size += temp;
+    buffer->tail  = (buffer->tail + temp) % buffer->length;
 
-    return amount;
+    return temp;
 }
 
 pxiword
-pxSocketUdpReadMemory(PxSocketUdp self, pxu8* memory, pxiword length)
+pxSocketUdpReadMemory(PxSocketUdp self, void* memory, pxiword amount, pxiword stride)
 {
-    return __pxSocketUdpReadMemory__(self, memory, length);
+    return __pxSocketUdpReadMemory__(self, memory, amount, stride);
 }
 
 pxiword
-pxSocketUdpReadAddr(PxSocketUdp self, PxBuffer8* buffer, PxAddress* address, pxu16* port)
+pxSocketUdpReadHost(PxSocketUdp self, PxBuffer8* buffer, PxAddress* address, pxu16* port)
 {
     pxBuffer8Normalize(buffer);
 
@@ -156,18 +156,18 @@ pxSocketUdpReadAddr(PxSocketUdp self, PxBuffer8* buffer, PxAddress* address, pxu
 
     if (size <= 0) return 0;
 
-    pxiword amount = __pxSocketUdpReadMemoryAddr__(self, memory, size, address, port);
+    pxiword temp = pxSocketUdpReadHostMemory(self, memory, size, 1, address, port);
 
-    buffer->size += amount;
-    buffer->tail  = (buffer->tail + amount) % buffer->length;
+    buffer->size += temp;
+    buffer->tail  = (buffer->tail + temp) % buffer->length;
 
-    return amount;
+    return temp;
 }
 
 pxiword
-pxSocketUdpReadMemoryAddr(PxSocketUdp self, pxu8* memory, pxiword length, PxAddress* address, pxu16* port)
+pxSocketUdpReadHostMemory(PxSocketUdp self, void* memory, pxiword amount, pxiword stride, PxAddress* address, pxu16* port)
 {
-    return __pxSocketUdpReadMemoryAddr__(self, memory, length, address, port);
+    return __pxSocketUdpReadHostMemory__(self, memory, amount, stride, address, port);
 }
 
 PxWriter

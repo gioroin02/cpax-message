@@ -91,12 +91,12 @@ pxJsonTokenString(PxString8 string)
 PxJsonToken
 pxJsonTokenUnsigned(PxString8 string)
 {
-    PxFormatOptions options =
-        pxFormatOptions(10, PX_FORMAT_FLAG_LEADING_PLUS);
+    PxFormatOption options =
+        PX_FORMAT_OPTION_LEADING_PLUS;
 
     pxuword value = 0;
 
-    if (pxUWordFromString8(&value, options, string) == 0)
+    if (pxUWordFromString8(&value, 10, options, string) == 0)
         return pxJsonTokenError(string, pxs8("Invalid number"));
 
     return (PxJsonToken) {
@@ -109,12 +109,12 @@ pxJsonTokenUnsigned(PxString8 string)
 PxJsonToken
 pxJsonTokenInteger(PxString8 string)
 {
-    PxFormatOptions options =
-        pxFormatOptions(10, PX_FORMAT_FLAG_LEADING_PLUS);
+    PxFormatOption options =
+        PX_FORMAT_OPTION_LEADING_PLUS;
 
     pxiword value = 0;
 
-    if (pxIWordFromString8(&value, options, string) == 0)
+    if (pxIWordFromString8(&value, 10, options, string) == 0)
         return pxJsonTokenError(string, pxs8("Invalid number"));
 
     return (PxJsonToken) {
@@ -127,12 +127,12 @@ pxJsonTokenInteger(PxString8 string)
 PxJsonToken
 pxJsonTokenFloating(PxString8 string)
 {
-    PxFormatOptions options =
-        pxFormatOptions(10, PX_FORMAT_FLAG_LEADING_PLUS);
+    PxFormatOption options =
+        PX_FORMAT_OPTION_LEADING_PLUS;
 
     pxfword value = 0;
 
-    if (1 /* pxFWordFromString8(&value, options, string) == 0 */)
+    if (1 /* pxFWordFromString8(&value, 10, options, string) == 0 */)
         return pxJsonTokenError(string, pxs8("Not implemented yet"));
 
     return (PxJsonToken) {
@@ -284,7 +284,7 @@ pxJsonPeekString(PxReader* reader, PxArena* arena)
         return pxJsonTokenError(subject, message);
     }
 
-    PxString8 string = pxReaderPeekString(reader, arena, offset + 1);
+    PxString8 string = pxReaderPeekString8(reader, arena, offset + 1);
 
     return pxJsonTokenString(
         pxString8SliceLength(string, 1, string.length - 2));
@@ -298,7 +298,7 @@ pxJsonPeekNumber(PxReader* reader, PxArena* arena)
 
     PxJsonTokenType type = PX_JSON_TOKEN_NONE;
 
-    while (pxAsciiIsNumeric(byte, 10) != 0) {
+    while (pxAsciiIsNumeric(byte, 10, 0) != 0 || pxAsciiIsNumeric(byte, 10, 1) != 0) {
         switch (byte) {
             case PX_ASCII_PLUS:
             case PX_ASCII_ZERO:
@@ -326,14 +326,21 @@ pxJsonPeekNumber(PxReader* reader, PxArena* arena)
                 type = PX_JSON_TOKEN_FLOATING;
             break;
 
-            default: break;
+            default: {
+                PxString8 message = pxString8Copy(arena,
+                    pxs8("Invalid number, expected digit or [+-.eE]"));
+
+                PxString8 subject = pxString8CopyUnicode(arena, byte);
+
+                return pxJsonTokenError(subject, message);
+            } break;
         }
 
         offset += 1;
         byte    = pxReaderPeek(reader, offset);
     }
 
-    PxString8 string = pxReaderPeekString(reader, arena, offset);
+    PxString8 string = pxReaderPeekString8(reader, arena, offset);
 
     switch (type) {
         case PX_JSON_TOKEN_UNSIGNED:
@@ -372,12 +379,12 @@ pxJsonPeekWord(PxReader* reader, PxArena* arena)
     offset += 1;
     byte    = pxReaderPeek(reader, offset);
 
-    while (pxAsciiIsLetter(byte) != 0 || pxAsciiIsDigit(byte, 10) != 0) {
+    while (pxAsciiIsLetter(byte) != 0 || pxAsciiIsDigit(byte, 10, 0) != 0) {
         offset += 1;
         byte    = pxReaderPeek(reader, offset);
     }
 
-    PxString8 string = pxReaderPeekString(reader, arena, offset);
+    PxString8 string = pxReaderPeekString8(reader, arena, offset);
 
     if (pxString8IsEqual(string, pxs8("true")) != 0)
         return pxJsonTokenBoolean(string, 1);

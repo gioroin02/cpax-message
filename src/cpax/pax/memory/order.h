@@ -16,81 +16,81 @@ PxByteOrder
 pxByteOrder();
 
 void*
-pxMemoryNetFromLocal(void* memory, pxiword amount, pxiword stride);
+pxMemoryNetFromHost(void* memory, pxiword amount, pxiword stride);
 
 void*
-pxMemoryNetCopyLocal(void* memory, void* value, pxiword amount, pxiword stride);
+pxMemoryCopyNetFromHost(void* memory, void* value, pxiword amount, pxiword stride);
 
 pxu16
-pxU16NetFromLocal(pxu16 value);
+pxU16NetFromHost(pxu16 value);
 
 pxu32
-pxU32NetFromLocal(pxu32 value);
+pxU32NetFromHost(pxu32 value);
 
 pxu64
-pxU64NetFromLocal(pxu64 value);
+pxU64NetFromHost(pxu64 value);
 
 pxuword
-pxUWordNetFromLocal(pxuword value);
+pxUWordNetFromHost(pxuword value);
 
 pxu16
-pxI16NetFromLocal(pxi16 value);
+pxI16NetFromHost(pxi16 value);
 
 pxu32
-pxI32NetFromLocal(pxi32 value);
+pxI32NetFromHost(pxi32 value);
 
 pxu64
-pxI64NetFromLocal(pxi64 value);
+pxI64NetFromHost(pxi64 value);
 
 pxuword
-pxIWordNetFromLocal(pxiword value);
+pxIWordNetFromHost(pxiword value);
 
 pxu32
-pxF32NetFromLocal(pxf32 value);
+pxF32NetFromHost(pxf32 value);
 
 pxu64
-pxF64NetFromLocal(pxf64 value);
+pxF64NetFromHost(pxf64 value);
 
 pxuword
-pxFWordNetFromLocal(pxfword value);
+pxFWordNetFromHost(pxfword value);
 
 void*
-pxMemoryLocalFromNet(void* memory, pxiword amount, pxiword stride);
+pxMemoryHostFromNet(void* memory, pxiword amount, pxiword stride);
 
 void*
-pxMemoryLocalCopyNet(void* memory, void* value, pxiword amount, pxiword stride);
+pxMemoryCopyHostFromNet(void* memory, void* value, pxiword amount, pxiword stride);
 
 pxu16
-pxU16LocalFromNet(pxu16 value);
+pxU16HostFromNet(pxu16 value);
 
 pxu32
-pxU32LocalFromNet(pxu32 value);
+pxU32HostFromNet(pxu32 value);
 
 pxu64
-pxU64LocalFromNet(pxu64 value);
+pxU64HostFromNet(pxu64 value);
 
 pxuword
-pxUWordLocalFromNet(pxuword value);
+pxUWordHostFromNet(pxuword value);
 
 pxi16
-pxI16LocalFromNet(pxu16 value);
+pxI16HostFromNet(pxu16 value);
 
 pxi32
-pxI32LocalFromNet(pxu32 value);
+pxI32HostFromNet(pxu32 value);
 
 pxi64
-pxI64LocalFromNet(pxu64 value);
+pxI64HostFromNet(pxu64 value);
 
 pxiword
-pxIWordLocalFromNet(pxuword value);
+pxIWordHostFromNet(pxuword value);
 
 pxf32
-pxF32LocalFromNet(pxu32 value);
+pxF32HostFromNet(pxu32 value);
 
 pxf64
-pxF64LocalFromNet(pxu64 value);
+pxF64HostFromNet(pxu64 value);
 
 pxfword
-pxFWordLocalFromNet(pxuword value);
+pxFWordHostFromNet(pxuword value);
 
 #endif // PX_MEMORY_BYTE_ORDER_H

@@ -30,15 +30,15 @@ PxWindowsSocketUdp*
 pxWindowsSocketUdpAccept(PxWindowsSocketUdp* self, PxArena* arena);
 
 pxiword
-pxWindowsSocketUdpWriteMemory(PxWindowsSocketUdp* self, pxu8* memory, pxiword length);
+pxWindowsSocketUdpWriteMemory(PxWindowsSocketUdp* self, void* memory, pxiword amount, pxiword stride);
 
 pxiword
-pxWindowsSocketUdpWriteMemoryAddr(PxWindowsSocketUdp* self, pxu8* memory, pxiword length, PxAddress address, pxu16 port);
+pxWindowsSocketUdpWriteHostMemory(PxWindowsSocketUdp* self, void* memory, pxiword amount, pxiword stride, PxAddress address, pxu16 port);
 
 pxiword
-pxWindowsSocketUdpReadMemory(PxWindowsSocketUdp* self, pxu8* memory, pxiword length);
+pxWindowsSocketUdpReadMemory(PxWindowsSocketUdp* self, void* memory, pxiword amount, pxiword stride);
 
 pxiword
-pxWindowsSocketUdpReadMemoryAddr(PxWindowsSocketUdp* self, pxu8* memory, pxiword length, PxAddress* address, pxu16* port);
+pxWindowsSocketUdpReadHostMemory(PxWindowsSocketUdp* self, void* memory, pxiword amount, pxiword stride, PxAddress* address, pxu16* port);
 
 #endif // PX_WINDOWS_NETWORK_SOCKET_UDP_H

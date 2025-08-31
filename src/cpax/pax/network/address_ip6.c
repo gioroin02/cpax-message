@@ -4,12 +4,12 @@
 #include "address_ip6.h"
 
 pxb8
-pxAddressIp6FromString(PxAddressIp6* self, PxString8 string)
+pxAddressIp6FromString8(PxAddressIp6* self, PxString8 string)
 {
     PxAddressIp6 temp = {0};
 
-    PxFormatOptions options = pxFormatOptions(10,
-        PX_FORMAT_FLAG_LEADING_ZERO);
+    PxFormatOption options =
+        PX_FORMAT_OPTION_LEADING_ZERO;
 
     PxString8 left  = {0};
     PxString8 right = {0};
@@ -22,9 +22,9 @@ pxAddressIp6FromString(PxAddressIp6* self, PxString8 string)
             if (groups != PX_ADDRESS_IP6_GROUPS - 1) return 0;
 
             for (pxiword i = 0; i < PX_ADDRESS_IP6_GROUPS; i += 1) {
-                pxString8Split(string, pxs8("."), &group, &string);
+                pxString8Split(string, pxs8(":"), &group, &string);
 
-                if (pxU16FromString8(&temp.memory[i], options, group) == 0)
+                if (pxU16FromString8(&temp.memory[i], 16, options, group) == 0)
                     return 0;
             }
         } break;
@@ -34,7 +34,7 @@ pxAddressIp6FromString(PxAddressIp6* self, PxString8 string)
 
             pxiword pivot = pxString8Contains(left, pxs8(":")) + 1;
             pxiword start = 0;
-            pxiword stop  = PX_ADDRESS_IP6_GROUPS - 1;
+            pxiword stop  = PX_ADDRESS_IP6_GROUPS;
 
             if (pivot >= stop) return 0;
 
@@ -43,9 +43,11 @@ pxAddressIp6FromString(PxAddressIp6* self, PxString8 string)
 
                 if (group.length <= 0) break;
 
-                if (pxU16FromString8(&temp.memory[i], options, group) == 0)
+                if (pxU16FromString8(&temp.memory[i], 16, options, group) == 0)
                     return 0;
             }
+
+            if (left.length > 0) return 0;
 
             start = pivot;
             pivot = pxString8Contains(right, pxs8(":")) + 1;
@@ -57,9 +59,11 @@ pxAddressIp6FromString(PxAddressIp6* self, PxString8 string)
 
                 if (group.length <= 0) break;
 
-                if (pxU16FromString8(&temp.memory[i], options, group) == 0)
+                if (pxU16FromString8(&temp.memory[i], 16, options, group) == 0)
                     return 0;
             }
+
+            if (right.length > 0) return 0;
         } break;
 
         default: return 0;

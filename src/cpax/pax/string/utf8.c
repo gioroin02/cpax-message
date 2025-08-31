@@ -42,7 +42,7 @@ pxUtf8Encode(PxUtf8* self, pxi32 value)
 }
 
 pxiword
-pxUtf8WriteMemoryForw(pxu8* memory, pxiword length, pxiword index, pxi32 value)
+pxUtf8WriteMemory8Forw(pxu8* memory, pxiword length, pxiword index, pxi32 value)
 {
     PxUtf8 utf8 = {0};
 
@@ -58,7 +58,7 @@ pxUtf8WriteMemoryForw(pxu8* memory, pxiword length, pxiword index, pxi32 value)
 }
 
 pxiword
-pxUtf8WriteMemoryBack(pxu8* memory, pxiword length, pxiword index, pxi32 value)
+pxUtf8WriteMemory8Back(pxu8* memory, pxiword length, pxiword index, pxi32 value)
 {
     PxUtf8 utf8 = {0};
 
@@ -125,7 +125,7 @@ pxUtf8Decode(PxUtf8* self, pxi32* value)
 }
 
 pxiword
-pxUtf8ReadMemoryForw(pxu8* memory, pxiword length, pxiword index, pxi32* value)
+pxUtf8ReadMemory8Forw(pxu8* memory, pxiword length, pxiword index, pxi32* value)
 {
     PxUtf8 utf8 = {0};
 
@@ -144,7 +144,7 @@ pxUtf8ReadMemoryForw(pxu8* memory, pxiword length, pxiword index, pxi32* value)
 }
 
 pxiword
-pxUtf8ReadMemoryBack(pxu8* memory, pxiword length, pxiword index, pxi32* value)
+pxUtf8ReadMemory8Back(pxu8* memory, pxiword length, pxiword index, pxi32* value)
 {
     PxUtf8  utf8  = {0};
     pxiword start = index;

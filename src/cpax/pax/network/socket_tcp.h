@@ -33,13 +33,13 @@ pxiword
 pxSocketTcpWrite(PxSocketTcp self, PxBuffer8* buffer);
 
 pxiword
-pxSocketTcpWriteMemory(PxSocketTcp self, pxu8* memory, pxiword length);
+pxSocketTcpWriteMemory(PxSocketTcp self, void* memory, pxiword amount, pxiword stride);
 
 pxiword
 pxSocketTcpRead(PxSocketTcp self, PxBuffer8* buffer);
 
 pxiword
-pxSocketTcpReadMemory(PxSocketTcp self, pxu8* memory, pxiword length);
+pxSocketTcpReadMemory(PxSocketTcp self, void* memory, pxiword amount, pxiword stride);
 
 PxReader
 pxSocketTcpReader(PxSocketTcp self, PxBuffer8* buffer);

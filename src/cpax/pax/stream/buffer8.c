@@ -70,7 +70,7 @@ pxBuffer8CopyAmount(PxArena* arena, PxBuffer8 value, pxiword length)
 }
 
 PxBuffer8
-pxBuffer8CopyMemory(PxArena* arena, pxu8* memory, pxiword length)
+pxBuffer8CopyMemory8(PxArena* arena, pxu8* memory, pxiword length)
 {
     PxBuffer8 result = pxBuffer8Reserve(arena, length);
 
@@ -233,7 +233,7 @@ pxBuffer8WriteHead(PxBuffer8* self, PxBuffer8* buffer)
 }
 
 pxiword
-pxBuffer8WriteMemoryHead(PxBuffer8* self, pxu8* memory, pxiword length)
+pxBuffer8WriteMemory8Head(PxBuffer8* self, pxu8* memory, pxiword length)
 {
     pxiword size = pxMin(length, self->length - self->size);
 
@@ -251,9 +251,9 @@ pxBuffer8WriteMemoryHead(PxBuffer8* self, pxu8* memory, pxiword length)
 }
 
 pxiword
-pxBuffer8WriteStringHead(PxBuffer8* self, PxString8 string)
+pxBuffer8WriteString8Head(PxBuffer8* self, PxString8 string)
 {
-    return pxBuffer8WriteMemoryHead(self, string.memory, string.length);
+    return pxBuffer8WriteMemory8Head(self, string.memory, string.length);
 }
 
 pxiword
@@ -280,7 +280,7 @@ pxBuffer8WriteTail(PxBuffer8* self, PxBuffer8* buffer)
 }
 
 pxiword
-pxBuffer8WriteMemoryTail(PxBuffer8* self, pxu8* memory, pxiword length)
+pxBuffer8WriteMemory8Tail(PxBuffer8* self, pxu8* memory, pxiword length)
 {
     pxiword size = pxMin(length, self->length - self->size);
 
@@ -298,9 +298,9 @@ pxBuffer8WriteMemoryTail(PxBuffer8* self, pxu8* memory, pxiword length)
 }
 
 pxiword
-pxBuffer8WriteStringTail(PxBuffer8* self, PxString8 string)
+pxBuffer8WriteString8Tail(PxBuffer8* self, PxString8 string)
 {
-    return pxBuffer8WriteMemoryTail(self, string.memory, string.length);
+    return pxBuffer8WriteMemory8Tail(self, string.memory, string.length);
 }
 
 pxiword
@@ -327,7 +327,7 @@ pxBuffer8ReadHead(PxBuffer8* self, PxBuffer8* buffer)
 }
 
 pxiword
-pxBuffer8ReadMemoryHead(PxBuffer8* self, pxu8* memory, pxiword length)
+pxBuffer8ReadMemory8Head(PxBuffer8* self, pxu8* memory, pxiword length)
 {
     pxiword size = pxMin(self->size, length);
 
@@ -345,7 +345,7 @@ pxBuffer8ReadMemoryHead(PxBuffer8* self, pxu8* memory, pxiword length)
 }
 
 PxString8
-pxBuffer8ReadStringHead(PxBuffer8* self, PxArena* arena, pxiword length)
+pxBuffer8ReadString8Head(PxBuffer8* self, PxArena* arena, pxiword length)
 {
     pxiword size = pxMin(self->size, length);
 
@@ -354,7 +354,7 @@ pxBuffer8ReadStringHead(PxBuffer8* self, PxArena* arena, pxiword length)
     pxu8* result = pxArenaReserve(arena, pxu8, size + 1);
 
     if (result != 0) {
-        pxBuffer8ReadMemoryHead(self, result, size);
+        pxBuffer8ReadMemory8Head(self, result, size);
 
         return (PxString8) {
             .memory = result,
@@ -389,7 +389,7 @@ pxBuffer8ReadTail(PxBuffer8* self, PxBuffer8* buffer)
 }
 
 pxiword
-pxBuffer8ReadMemoryTail(PxBuffer8* self, pxu8* memory, pxiword length)
+pxBuffer8ReadMemory8Tail(PxBuffer8* self, pxu8* memory, pxiword length)
 {
     pxiword size = pxMin(self->size, length);
 
@@ -407,7 +407,7 @@ pxBuffer8ReadMemoryTail(PxBuffer8* self, pxu8* memory, pxiword length)
 }
 
 PxString8
-pxBuffer8ReadStringTail(PxBuffer8* self, PxArena* arena, pxiword length)
+pxBuffer8ReadString8Tail(PxBuffer8* self, PxArena* arena, pxiword length)
 {
     pxiword size = pxMin(self->size, length);
 
@@ -416,7 +416,7 @@ pxBuffer8ReadStringTail(PxBuffer8* self, PxArena* arena, pxiword length)
     pxu8* result = pxArenaReserve(arena, pxu8, size + 1);
 
     if (result != 0) {
-        pxBuffer8ReadMemoryTail(self, result, size);
+        pxBuffer8ReadMemory8Tail(self, result, size);
 
         return (PxString8) {
             .memory = result,
@@ -446,7 +446,7 @@ pxBuffer8PeekHead(PxBuffer8* self, PxBuffer8* buffer)
 }
 
 pxiword
-pxBuffer8PeekMemoryHead(PxBuffer8* self, pxu8* memory, pxiword length)
+pxBuffer8PeekMemory8Head(PxBuffer8* self, pxu8* memory, pxiword length)
 {
     pxiword size = pxMin(self->size, length);
 
@@ -459,7 +459,7 @@ pxBuffer8PeekMemoryHead(PxBuffer8* self, pxu8* memory, pxiword length)
 }
 
 PxString8
-pxBuffer8PeekStringHead(PxBuffer8* self, PxArena* arena, pxiword length)
+pxBuffer8PeekString8Head(PxBuffer8* self, PxArena* arena, pxiword length)
 {
     pxiword size = pxMin(self->size, length);
 
@@ -468,7 +468,7 @@ pxBuffer8PeekStringHead(PxBuffer8* self, PxArena* arena, pxiword length)
     pxu8* result = pxArenaReserve(arena, pxu8, size + 1);
 
     if (result != 0) {
-        pxBuffer8PeekMemoryHead(self, result, size);
+        pxBuffer8PeekMemory8Head(self, result, size);
 
         return (PxString8) {
             .memory = result,
@@ -501,7 +501,7 @@ pxBuffer8PeekTail(PxBuffer8* self, PxBuffer8* buffer)
 }
 
 pxiword
-pxBuffer8PeekMemoryTail(PxBuffer8* self, pxu8* memory, pxiword length)
+pxBuffer8PeekMemory8Tail(PxBuffer8* self, pxu8* memory, pxiword length)
 {
     pxiword size = pxMin(self->size, length);
 
@@ -517,7 +517,7 @@ pxBuffer8PeekMemoryTail(PxBuffer8* self, pxu8* memory, pxiword length)
 }
 
 PxString8
-pxBuffer8PeekStringTail(PxBuffer8* self, PxArena* arena, pxiword length)
+pxBuffer8PeekString8Tail(PxBuffer8* self, PxArena* arena, pxiword length)
 {
     pxiword size = pxMin(self->size, length);
 
@@ -526,7 +526,7 @@ pxBuffer8PeekStringTail(PxBuffer8* self, PxArena* arena, pxiword length)
     pxu8* result = pxArenaReserve(arena, pxu8, size + 1);
 
     if (result != 0) {
-        pxBuffer8PeekMemoryTail(self, result, size);
+        pxBuffer8PeekMemory8Tail(self, result, size);
 
         return (PxString8) {
             .memory = result,

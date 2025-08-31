@@ -26,7 +26,7 @@ pxUtf32Encode(PxUtf32* self, pxi32 value)
 }
 
 pxiword
-pxUtf32WriteMemoryForw(pxu32* memory, pxiword length, pxiword index, pxi32 value)
+pxUtf32WriteMemory32Forw(pxu32* memory, pxiword length, pxiword index, pxi32 value)
 {
     PxUtf32 utf32 = {0};
 
@@ -42,7 +42,7 @@ pxUtf32WriteMemoryForw(pxu32* memory, pxiword length, pxiword index, pxi32 value
 }
 
 pxiword
-pxUtf32WriteMemoryBack(pxu32* memory, pxiword length, pxiword index, pxi32 value)
+pxUtf32WriteMemory32Back(pxu32* memory, pxiword length, pxiword index, pxi32 value)
 {
     PxUtf32 utf32 = {0};
 
@@ -79,7 +79,7 @@ pxUtf32Decode(PxUtf32* self, pxi32* value)
 }
 
 pxiword
-pxUtf32ReadMemoryForw(pxu32* memory, pxiword length, pxiword index, pxi32* value)
+pxUtf32ReadMemory32Forw(pxu32* memory, pxiword length, pxiword index, pxi32* value)
 {
     PxUtf32 utf32 = {0};
 
@@ -98,7 +98,7 @@ pxUtf32ReadMemoryForw(pxu32* memory, pxiword length, pxiword index, pxi32* value
 }
 
 pxiword
-pxUtf32ReadMemoryBack(pxu32* memory, pxiword length, pxiword index, pxi32* value)
+pxUtf32ReadMemory32Back(pxu32* memory, pxiword length, pxiword index, pxi32* value)
 {
     PxUtf32 utf32 = {.size = 1};
 

@@ -27,6 +27,6 @@ pxiword
 pxWriterByte(PxWriter* self, pxu8 value);
 
 pxiword
-pxWriterString(PxWriter* self, PxString8 value);
+pxWriterString8(PxWriter* self, PxString8 value);
 
 #endif // PX_STREAM_WRITER_H

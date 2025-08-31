@@ -6,7 +6,7 @@
 #define PX_ADDRESS_IP6_ANY       ((PxAddressIp6) {0})
 #define PX_ADDRESS_IP6_LOCALHOST ((PxAddressIp6) {.h = 1})
 
-#define PX_ADDRESS_IP6_GROUPS 8
+#define PX_ADDRESS_IP6_GROUPS pxCast(pxiword, 8)
 
 typedef struct PxAddressIp6
 {
@@ -23,7 +23,7 @@ typedef struct PxAddressIp6
 PxAddressIp6;
 
 pxb8
-pxAddressIp6FromString(PxAddressIp6* self, PxString8 string);
+pxAddressIp6FromString8(PxAddressIp6* self, PxString8 string);
 
 pxb8
 pxAddressIp6IsEqual(PxAddressIp6 self, PxAddressIp6 value);

@@ -1,15 +1,13 @@
 #ifndef PX_FORMAT_STRING32_C
 #define PX_FORMAT_STRING32_C
 
-#include "string8.h"
+#include "string32.h"
 
 PxString32
-pxString32FromU8(PxArena* arena, PxFormatOptions options, pxu8 value)
+pxString32FromU8(PxArena* arena, pxuword radix, PxFormatOption options, pxu8 value)
 {
-    PxFormatFlag flags  = options.flags;
-    pxu8         radix  = options.radix;
-    pxiword      length = 0;
-    pxu8         temp   = value;
+    pxiword length = 0;
+    pxu8    temp   = value;
 
     if (temp != 0) {
         for (pxuword t = temp; t != 0; t /= radix)
@@ -17,7 +15,7 @@ pxString32FromU8(PxArena* arena, PxFormatOptions options, pxu8 value)
     } else
         length += 1;
 
-    if ((flags & PX_FORMAT_FLAG_LEADING_PLUS) != 0)
+    if ((options & PX_FORMAT_OPTION_LEADING_PLUS) != 0)
         length += 1;
 
     pxiword offset = pxArenaOffset(arena);
@@ -26,7 +24,7 @@ pxString32FromU8(PxArena* arena, PxFormatOptions options, pxu8 value)
 
     while (index > 0) {
         pxi32 digit = pxAsciiDigitFromValue(temp, radix,
-            options.flags & PX_FORMAT_FLAG_UPPER_CASE);
+            options & PX_FORMAT_OPTION_UPPER_CASE);
 
         index -= 1;
         temp  /= radix;
@@ -38,7 +36,7 @@ pxString32FromU8(PxArena* arena, PxFormatOptions options, pxu8 value)
     }
 
     if (index == 0) {
-        if ((flags & PX_FORMAT_FLAG_LEADING_PLUS) != 0)
+        if ((options & PX_FORMAT_OPTION_LEADING_PLUS) != 0)
             result[index] = PX_ASCII_PLUS;
 
         return (PxString32) {
@@ -53,12 +51,10 @@ pxString32FromU8(PxArena* arena, PxFormatOptions options, pxu8 value)
 }
 
 PxString32
-pxString32FromU16(PxArena* arena, PxFormatOptions options, pxu16 value)
+pxString32FromU16(PxArena* arena, pxuword radix, PxFormatOption options, pxu16 value)
 {
-    PxFormatFlag flags  = options.flags;
-    pxu16        radix  = options.radix;
-    pxiword      length = 0;
-    pxu16        temp   = value;
+    pxiword length = 0;
+    pxu16   temp   = value;
 
     if (temp != 0) {
         for (pxuword t = temp; t != 0; t /= radix)
@@ -66,7 +62,7 @@ pxString32FromU16(PxArena* arena, PxFormatOptions options, pxu16 value)
     } else
         length += 1;
 
-    if ((flags & PX_FORMAT_FLAG_LEADING_PLUS) != 0)
+    if ((options & PX_FORMAT_OPTION_LEADING_PLUS) != 0)
         length += 1;
 
     pxiword offset = pxArenaOffset(arena);
@@ -75,7 +71,7 @@ pxString32FromU16(PxArena* arena, PxFormatOptions options, pxu16 value)
 
     while (index > 0) {
         pxi32 digit = pxAsciiDigitFromValue(temp, radix,
-            options.flags & PX_FORMAT_FLAG_UPPER_CASE);
+            options & PX_FORMAT_OPTION_UPPER_CASE);
 
         index -= 1;
         temp  /= radix;
@@ -87,7 +83,7 @@ pxString32FromU16(PxArena* arena, PxFormatOptions options, pxu16 value)
     }
 
     if (index == 0) {
-        if ((flags & PX_FORMAT_FLAG_LEADING_PLUS) != 0)
+        if ((options & PX_FORMAT_OPTION_LEADING_PLUS) != 0)
             result[index] = PX_ASCII_PLUS;
 
         return (PxString32) {
@@ -102,12 +98,10 @@ pxString32FromU16(PxArena* arena, PxFormatOptions options, pxu16 value)
 }
 
 PxString32
-pxString32FromU32(PxArena* arena, PxFormatOptions options, pxu32 value)
+pxString32FromU32(PxArena* arena, pxuword radix, PxFormatOption options, pxu32 value)
 {
-    PxFormatFlag flags  = options.flags;
-    pxu32        radix  = options.radix;
-    pxiword      length = 0;
-    pxu32        temp   = value;
+    pxiword length = 0;
+    pxu32   temp   = value;
 
     if (temp != 0) {
         for (pxuword t = temp; t != 0; t /= radix)
@@ -115,7 +109,7 @@ pxString32FromU32(PxArena* arena, PxFormatOptions options, pxu32 value)
     } else
         length += 1;
 
-    if ((flags & PX_FORMAT_FLAG_LEADING_PLUS) != 0)
+    if ((options & PX_FORMAT_OPTION_LEADING_PLUS) != 0)
         length += 1;
 
     pxiword offset = pxArenaOffset(arena);
@@ -124,7 +118,7 @@ pxString32FromU32(PxArena* arena, PxFormatOptions options, pxu32 value)
 
     while (index > 0) {
         pxi32 digit = pxAsciiDigitFromValue(temp, radix,
-            options.flags & PX_FORMAT_FLAG_UPPER_CASE);
+            options & PX_FORMAT_OPTION_UPPER_CASE);
 
         index -= 1;
         temp  /= radix;
@@ -136,7 +130,7 @@ pxString32FromU32(PxArena* arena, PxFormatOptions options, pxu32 value)
     }
 
     if (index == 0) {
-        if ((flags & PX_FORMAT_FLAG_LEADING_PLUS) != 0)
+        if ((options & PX_FORMAT_OPTION_LEADING_PLUS) != 0)
             result[index] = PX_ASCII_PLUS;
 
         return (PxString32) {
@@ -151,12 +145,10 @@ pxString32FromU32(PxArena* arena, PxFormatOptions options, pxu32 value)
 }
 
 PxString32
-pxString32FromU64(PxArena* arena, PxFormatOptions options, pxu64 value)
+pxString32FromU64(PxArena* arena, pxuword radix, PxFormatOption options, pxu64 value)
 {
-    PxFormatFlag flags  = options.flags;
-    pxu64        radix  = options.radix;
-    pxiword      length = 0;
-    pxu64        temp   = value;
+    pxiword length = 0;
+    pxu64   temp   = value;
 
     if (temp != 0) {
         for (pxuword t = temp; t != 0; t /= radix)
@@ -164,7 +156,7 @@ pxString32FromU64(PxArena* arena, PxFormatOptions options, pxu64 value)
     } else
         length += 1;
 
-    if ((flags & PX_FORMAT_FLAG_LEADING_PLUS) != 0)
+    if ((options & PX_FORMAT_OPTION_LEADING_PLUS) != 0)
         length += 1;
 
     pxiword offset = pxArenaOffset(arena);
@@ -173,7 +165,7 @@ pxString32FromU64(PxArena* arena, PxFormatOptions options, pxu64 value)
 
     while (index > 0) {
         pxi32 digit = pxAsciiDigitFromValue(temp, radix,
-            options.flags & PX_FORMAT_FLAG_UPPER_CASE);
+            options & PX_FORMAT_OPTION_UPPER_CASE);
 
         index -= 1;
         temp  /= radix;
@@ -185,7 +177,7 @@ pxString32FromU64(PxArena* arena, PxFormatOptions options, pxu64 value)
     }
 
     if (index == 0) {
-        if ((flags & PX_FORMAT_FLAG_LEADING_PLUS) != 0)
+        if ((options & PX_FORMAT_OPTION_LEADING_PLUS) != 0)
             result[index] = PX_ASCII_PLUS;
 
         return (PxString32) {
@@ -200,12 +192,10 @@ pxString32FromU64(PxArena* arena, PxFormatOptions options, pxu64 value)
 }
 
 PxString32
-pxString32FromUWord(PxArena* arena, PxFormatOptions options, pxuword value)
+pxString32FromUWord(PxArena* arena, pxuword radix, PxFormatOption options, pxuword value)
 {
-    PxFormatFlag flags  = options.flags;
-    pxuword      radix  = options.radix;
-    pxiword      length = 0;
-    pxuword      temp   = value;
+    pxiword length = 0;
+    pxuword temp   = value;
 
     if (temp != 0) {
         for (pxuword t = temp; t != 0; t /= radix)
@@ -213,7 +203,7 @@ pxString32FromUWord(PxArena* arena, PxFormatOptions options, pxuword value)
     } else
         length += 1;
 
-    if ((flags & PX_FORMAT_FLAG_LEADING_PLUS) != 0)
+    if ((options & PX_FORMAT_OPTION_LEADING_PLUS) != 0)
         length += 1;
 
     pxiword offset = pxArenaOffset(arena);
@@ -222,7 +212,7 @@ pxString32FromUWord(PxArena* arena, PxFormatOptions options, pxuword value)
 
     while (index > 0) {
         pxi32 digit = pxAsciiDigitFromValue(temp, radix,
-            options.flags & PX_FORMAT_FLAG_UPPER_CASE);
+            options & PX_FORMAT_OPTION_UPPER_CASE);
 
         index -= 1;
         temp  /= radix;
@@ -234,7 +224,7 @@ pxString32FromUWord(PxArena* arena, PxFormatOptions options, pxuword value)
     }
 
     if (index == 0) {
-        if ((flags & PX_FORMAT_FLAG_LEADING_PLUS) != 0)
+        if ((options & PX_FORMAT_OPTION_LEADING_PLUS) != 0)
             result[index] = PX_ASCII_PLUS;
 
         return (PxString32) {
@@ -249,13 +239,11 @@ pxString32FromUWord(PxArena* arena, PxFormatOptions options, pxuword value)
 }
 
 PxString32
-pxString32FromI8(PxArena* arena, PxFormatOptions options, pxi8 value)
+pxString32FromI8(PxArena* arena, pxuword radix, PxFormatOption options, pxi8 value)
 {
-    PxFormatFlag flags  = options.flags;
-    pxu8         radix  = options.radix;
-    pxiword      length = 0;
-    pxu8         temp   = pxMagnitudeI8(value);
-    pxb8         sign   = pxDirectionI8(value) < 0 ? 1 : 0;
+    pxiword length = 0;
+    pxu8    temp   = pxMagnitudeI8(value);
+    pxb8    sign   = pxDirectionI8(value) < 0 ? 1 : 0;
 
     if (temp != 0) {
         for (pxuword t = temp; t != 0; t /= radix)
@@ -263,7 +251,7 @@ pxString32FromI8(PxArena* arena, PxFormatOptions options, pxi8 value)
     } else
         length += 1;
 
-    if (sign != 0 || (flags & PX_FORMAT_FLAG_LEADING_PLUS) != 0)
+    if (sign != 0 || (options & PX_FORMAT_OPTION_LEADING_PLUS) != 0)
         length += 1;
 
     pxiword offset = pxArenaOffset(arena);
@@ -272,7 +260,7 @@ pxString32FromI8(PxArena* arena, PxFormatOptions options, pxi8 value)
 
     while (index > 0) {
         pxi32 digit = pxAsciiDigitFromValue(temp, radix,
-            options.flags & PX_FORMAT_FLAG_UPPER_CASE);
+            options & PX_FORMAT_OPTION_UPPER_CASE);
 
         index -= 1;
         temp  /= radix;
@@ -286,7 +274,7 @@ pxString32FromI8(PxArena* arena, PxFormatOptions options, pxi8 value)
     if (index == 0) {
         if (sign != 0) result[index] = PX_ASCII_MINUS;
 
-        if (sign == 0 && (flags & PX_FORMAT_FLAG_LEADING_PLUS) != 0)
+        if (sign == 0 && (options & PX_FORMAT_OPTION_LEADING_PLUS) != 0)
             result[index] = PX_ASCII_PLUS;
 
         return (PxString32) {
@@ -301,13 +289,11 @@ pxString32FromI8(PxArena* arena, PxFormatOptions options, pxi8 value)
 }
 
 PxString32
-pxString32FromI16(PxArena* arena, PxFormatOptions options, pxi16 value)
+pxString32FromI16(PxArena* arena, pxuword radix, PxFormatOption options, pxi16 value)
 {
-    PxFormatFlag flags  = options.flags;
-    pxu16        radix  = options.radix;
-    pxiword      length = 0;
-    pxu16        temp   = pxMagnitudeI16(value);
-    pxb8         sign   = pxDirectionI16(value) < 0 ? 1 : 0;
+    pxiword length = 0;
+    pxu16   temp   = pxMagnitudeI16(value);
+    pxb8    sign   = pxDirectionI16(value) < 0 ? 1 : 0;
 
     if (temp != 0) {
         for (pxuword t = temp; t != 0; t /= radix)
@@ -315,7 +301,7 @@ pxString32FromI16(PxArena* arena, PxFormatOptions options, pxi16 value)
     } else
         length += 1;
 
-    if (sign != 0 || (flags & PX_FORMAT_FLAG_LEADING_PLUS) != 0)
+    if (sign != 0 || (options & PX_FORMAT_OPTION_LEADING_PLUS) != 0)
         length += 1;
 
     pxiword offset = pxArenaOffset(arena);
@@ -324,7 +310,7 @@ pxString32FromI16(PxArena* arena, PxFormatOptions options, pxi16 value)
 
     while (index > 0) {
         pxi32 digit = pxAsciiDigitFromValue(temp, radix,
-            options.flags & PX_FORMAT_FLAG_UPPER_CASE);
+            options & PX_FORMAT_OPTION_UPPER_CASE);
 
         index -= 1;
         temp  /= radix;
@@ -338,7 +324,7 @@ pxString32FromI16(PxArena* arena, PxFormatOptions options, pxi16 value)
     if (index == 0) {
         if (sign != 0) result[index] = PX_ASCII_MINUS;
 
-        if (sign == 0 && (flags & PX_FORMAT_FLAG_LEADING_PLUS) != 0)
+        if (sign == 0 && (options & PX_FORMAT_OPTION_LEADING_PLUS) != 0)
             result[index] = PX_ASCII_PLUS;
 
         return (PxString32) {
@@ -353,13 +339,11 @@ pxString32FromI16(PxArena* arena, PxFormatOptions options, pxi16 value)
 }
 
 PxString32
-pxString32FromI32(PxArena* arena, PxFormatOptions options, pxi32 value)
+pxString32FromI32(PxArena* arena, pxuword radix, PxFormatOption options, pxi32 value)
 {
-    PxFormatFlag flags  = options.flags;
-    pxu32        radix  = options.radix;
-    pxiword      length = 0;
-    pxu32        temp   = pxMagnitudeI32(value);
-    pxb8         sign   = pxDirectionI32(value) < 0 ? 1 : 0;
+    pxiword length = 0;
+    pxu32   temp   = pxMagnitudeI32(value);
+    pxb8    sign   = pxDirectionI32(value) < 0 ? 1 : 0;
 
     if (temp != 0) {
         for (pxuword t = temp; t != 0; t /= radix)
@@ -367,7 +351,7 @@ pxString32FromI32(PxArena* arena, PxFormatOptions options, pxi32 value)
     } else
         length += 1;
 
-    if (sign != 0 || (flags & PX_FORMAT_FLAG_LEADING_PLUS) != 0)
+    if (sign != 0 || (options & PX_FORMAT_OPTION_LEADING_PLUS) != 0)
         length += 1;
 
     pxiword offset = pxArenaOffset(arena);
@@ -376,7 +360,7 @@ pxString32FromI32(PxArena* arena, PxFormatOptions options, pxi32 value)
 
     while (index > 0) {
         pxi32 digit = pxAsciiDigitFromValue(temp, radix,
-            options.flags & PX_FORMAT_FLAG_UPPER_CASE);
+            options & PX_FORMAT_OPTION_UPPER_CASE);
 
         index -= 1;
         temp  /= radix;
@@ -390,7 +374,7 @@ pxString32FromI32(PxArena* arena, PxFormatOptions options, pxi32 value)
     if (index == 0) {
         if (sign != 0) result[index] = PX_ASCII_MINUS;
 
-        if (sign == 0 && (flags & PX_FORMAT_FLAG_LEADING_PLUS) != 0)
+        if (sign == 0 && (options & PX_FORMAT_OPTION_LEADING_PLUS) != 0)
             result[index] = PX_ASCII_PLUS;
 
         return (PxString32) {
@@ -405,13 +389,11 @@ pxString32FromI32(PxArena* arena, PxFormatOptions options, pxi32 value)
 }
 
 PxString32
-pxString32FromI64(PxArena* arena, PxFormatOptions options, pxi64 value)
+pxString32FromI64(PxArena* arena, pxuword radix, PxFormatOption options, pxi64 value)
 {
-    PxFormatFlag flags  = options.flags;
-    pxu64        radix  = options.radix;
-    pxiword      length = 0;
-    pxu64        temp   = pxMagnitudeI64(value);
-    pxb8         sign   = pxDirectionI64(value) < 0 ? 1 : 0;
+    pxiword length = 0;
+    pxu64   temp   = pxMagnitudeI64(value);
+    pxb8    sign   = pxDirectionI64(value) < 0 ? 1 : 0;
 
     if (temp != 0) {
         for (pxuword t = temp; t != 0; t /= radix)
@@ -419,7 +401,7 @@ pxString32FromI64(PxArena* arena, PxFormatOptions options, pxi64 value)
     } else
         length += 1;
 
-    if (sign != 0 || (flags & PX_FORMAT_FLAG_LEADING_PLUS) != 0)
+    if (sign != 0 || (options & PX_FORMAT_OPTION_LEADING_PLUS) != 0)
         length += 1;
 
     pxiword offset = pxArenaOffset(arena);
@@ -428,7 +410,7 @@ pxString32FromI64(PxArena* arena, PxFormatOptions options, pxi64 value)
 
     while (index > 0) {
         pxi32 digit = pxAsciiDigitFromValue(temp, radix,
-            options.flags & PX_FORMAT_FLAG_UPPER_CASE);
+            options & PX_FORMAT_OPTION_UPPER_CASE);
 
         index -= 1;
         temp  /= radix;
@@ -442,7 +424,7 @@ pxString32FromI64(PxArena* arena, PxFormatOptions options, pxi64 value)
     if (index == 0) {
         if (sign != 0) result[index] = PX_ASCII_MINUS;
 
-        if (sign == 0 && (flags & PX_FORMAT_FLAG_LEADING_PLUS) != 0)
+        if (sign == 0 && (options & PX_FORMAT_OPTION_LEADING_PLUS) != 0)
             result[index] = PX_ASCII_PLUS;
 
         return (PxString32) {
@@ -457,13 +439,11 @@ pxString32FromI64(PxArena* arena, PxFormatOptions options, pxi64 value)
 }
 
 PxString32
-pxString32FromIWord(PxArena* arena, PxFormatOptions options, pxiword value)
+pxString32FromIWord(PxArena* arena, pxuword radix, PxFormatOption options, pxiword value)
 {
-    PxFormatFlag flags  = options.flags;
-    pxuword      radix  = options.radix;
-    pxiword      length = 0;
-    pxuword      temp   = pxMagnitudeIWord(value);
-    pxb8         sign   = pxDirectionIWord(value) < 0 ? 1 : 0;
+    pxiword length = 0;
+    pxuword temp   = pxMagnitudeIWord(value);
+    pxb8    sign   = pxDirectionIWord(value) < 0 ? 1 : 0;
 
     if (temp != 0) {
         for (pxuword t = temp; t != 0; t /= radix)
@@ -471,7 +451,7 @@ pxString32FromIWord(PxArena* arena, PxFormatOptions options, pxiword value)
     } else
         length += 1;
 
-    if (sign != 0 || (flags & PX_FORMAT_FLAG_LEADING_PLUS) != 0)
+    if (sign != 0 || (options & PX_FORMAT_OPTION_LEADING_PLUS) != 0)
         length += 1;
 
     pxiword offset = pxArenaOffset(arena);
@@ -480,7 +460,7 @@ pxString32FromIWord(PxArena* arena, PxFormatOptions options, pxiword value)
 
     while (index > 0) {
         pxi32 digit = pxAsciiDigitFromValue(temp, radix,
-            options.flags & PX_FORMAT_FLAG_UPPER_CASE);
+            options & PX_FORMAT_OPTION_UPPER_CASE);
 
         index -= 1;
         temp  /= radix;
@@ -494,7 +474,7 @@ pxString32FromIWord(PxArena* arena, PxFormatOptions options, pxiword value)
     if (index == 0) {
         if (sign != 0) result[index] = PX_ASCII_MINUS;
 
-        if (sign == 0 && (flags & PX_FORMAT_FLAG_LEADING_PLUS) != 0)
+        if (sign == 0 && (options & PX_FORMAT_OPTION_LEADING_PLUS) != 0)
             result[index] = PX_ASCII_PLUS;
 
         return (PxString32) {
@@ -509,18 +489,16 @@ pxString32FromIWord(PxArena* arena, PxFormatOptions options, pxiword value)
 }
 
 pxb8
-pxU8FromString32(pxu8* self, PxFormatOptions options, PxString32 string)
+pxU8FromString32(pxu8* self, pxuword radix, PxFormatOption options, PxString32 string)
 {
-    PxFormatFlag flags = options.flags;
-    pxu8         radix = options.radix;
-    pxiword      index = 0;
-    pxu8         temp  = 0;
+    pxiword index = 0;
+    pxu8    temp  = 0;
 
     if (string.length <= 0) return 0;
 
     switch (string.memory[index]) {
         case PX_ASCII_PLUS: {
-            if ((flags & PX_FORMAT_FLAG_LEADING_PLUS) == 0)
+            if ((options & PX_FORMAT_OPTION_LEADING_PLUS) == 0)
                 return 0;
 
             index += 1;
@@ -529,7 +507,7 @@ pxU8FromString32(pxu8* self, PxFormatOptions options, PxString32 string)
         default: break;
     }
 
-    if ((flags & PX_FORMAT_FLAG_LEADING_ZERO) == 0) {
+    if ((options & PX_FORMAT_OPTION_LEADING_ZERO) == 0) {
         pxi32 unicode = string.memory[index];
 
         if (string.length > index + 1 && unicode == PX_ASCII_ZERO)
@@ -537,7 +515,8 @@ pxU8FromString32(pxu8* self, PxFormatOptions options, PxString32 string)
     }
 
     for (; index < string.length; index += 1) {
-        pxu8 digit = pxAsciiValueFromDigit(string.memory[index], radix);
+        pxu8 digit = pxAsciiValueFromDigit(string.memory[index], radix,
+            options & PX_FORMAT_OPTION_UPPER_CASE);
 
         if (digit < 0 || digit >= radix) return 0;
 
@@ -553,18 +532,16 @@ pxU8FromString32(pxu8* self, PxFormatOptions options, PxString32 string)
 }
 
 pxb8
-pxU16FromString32(pxu16* self, PxFormatOptions options, PxString32 string)
+pxU16FromString32(pxu16* self, pxuword radix, PxFormatOption options, PxString32 string)
 {
-    PxFormatFlag flags = options.flags;
-    pxu8         radix = options.radix;
-    pxiword      index = 0;
-    pxu16        temp  = 0;
+    pxiword index = 0;
+    pxu16   temp  = 0;
 
     if (string.length <= 0) return 0;
 
     switch (string.memory[index]) {
         case PX_ASCII_PLUS: {
-            if ((flags & PX_FORMAT_FLAG_LEADING_PLUS) == 0)
+            if ((options & PX_FORMAT_OPTION_LEADING_PLUS) == 0)
                 return 0;
 
             index += 1;
@@ -573,7 +550,7 @@ pxU16FromString32(pxu16* self, PxFormatOptions options, PxString32 string)
         default: break;
     }
 
-    if ((flags & PX_FORMAT_FLAG_LEADING_ZERO) == 0) {
+    if ((options & PX_FORMAT_OPTION_LEADING_ZERO) == 0) {
         pxi32 unicode = string.memory[index];
 
         if (string.length > index + 1 && unicode == PX_ASCII_ZERO)
@@ -581,7 +558,8 @@ pxU16FromString32(pxu16* self, PxFormatOptions options, PxString32 string)
     }
 
     for (; index < string.length; index += 1) {
-        pxu8 digit = pxAsciiValueFromDigit(string.memory[index], radix);
+        pxu8 digit = pxAsciiValueFromDigit(string.memory[index], radix,
+            options & PX_FORMAT_OPTION_UPPER_CASE);
 
         if (digit < 0 || digit >= radix) return 0;
 
@@ -597,18 +575,16 @@ pxU16FromString32(pxu16* self, PxFormatOptions options, PxString32 string)
 }
 
 pxb8
-pxU32FromString32(pxu32* self, PxFormatOptions options, PxString32 string)
+pxU32FromString32(pxu32* self, pxuword radix, PxFormatOption options, PxString32 string)
 {
-    PxFormatFlag flags = options.flags;
-    pxu8         radix = options.radix;
-    pxiword      index = 0;
-    pxu32        temp  = 0;
+    pxiword index = 0;
+    pxu32   temp  = 0;
 
     if (string.length <= 0) return 0;
 
     switch (string.memory[index]) {
         case PX_ASCII_PLUS: {
-            if ((flags & PX_FORMAT_FLAG_LEADING_PLUS) == 0)
+            if ((options & PX_FORMAT_OPTION_LEADING_PLUS) == 0)
                 return 0;
 
             index += 1;
@@ -617,7 +593,7 @@ pxU32FromString32(pxu32* self, PxFormatOptions options, PxString32 string)
         default: break;
     }
 
-    if ((flags & PX_FORMAT_FLAG_LEADING_ZERO) == 0) {
+    if ((options & PX_FORMAT_OPTION_LEADING_ZERO) == 0) {
         pxi32 unicode = string.memory[index];
 
         if (string.length > index + 1 && unicode == PX_ASCII_ZERO)
@@ -625,7 +601,8 @@ pxU32FromString32(pxu32* self, PxFormatOptions options, PxString32 string)
     }
 
     for (; index < string.length; index += 1) {
-        pxu8 digit = pxAsciiValueFromDigit(string.memory[index], radix);
+        pxu8 digit = pxAsciiValueFromDigit(string.memory[index], radix,
+            options & PX_FORMAT_OPTION_UPPER_CASE);
 
         if (digit < 0 || digit >= radix) return 0;
 
@@ -641,18 +618,16 @@ pxU32FromString32(pxu32* self, PxFormatOptions options, PxString32 string)
 }
 
 pxb8
-pxU64FromString32(pxu64* self, PxFormatOptions options, PxString32 string)
+pxU64FromString32(pxu64* self, pxuword radix, PxFormatOption options, PxString32 string)
 {
-    PxFormatFlag flags = options.flags;
-    pxu8         radix = options.radix;
-    pxiword      index = 0;
-    pxu64        temp  = 0;
+    pxiword index = 0;
+    pxu64   temp  = 0;
 
     if (string.length <= 0) return 0;
 
     switch (string.memory[index]) {
         case PX_ASCII_PLUS: {
-            if ((flags & PX_FORMAT_FLAG_LEADING_PLUS) == 0)
+            if ((options & PX_FORMAT_OPTION_LEADING_PLUS) == 0)
                 return 0;
 
             index += 1;
@@ -661,7 +636,7 @@ pxU64FromString32(pxu64* self, PxFormatOptions options, PxString32 string)
         default: break;
     }
 
-    if ((flags & PX_FORMAT_FLAG_LEADING_ZERO) == 0) {
+    if ((options & PX_FORMAT_OPTION_LEADING_ZERO) == 0) {
         pxi32 unicode = string.memory[index];
 
         if (string.length > index + 1 && unicode == PX_ASCII_ZERO)
@@ -669,7 +644,8 @@ pxU64FromString32(pxu64* self, PxFormatOptions options, PxString32 string)
     }
 
     for (; index < string.length; index += 1) {
-        pxu8 digit = pxAsciiValueFromDigit(string.memory[index], radix);
+        pxu8 digit = pxAsciiValueFromDigit(string.memory[index], radix,
+            options & PX_FORMAT_OPTION_UPPER_CASE);
 
         if (digit < 0 || digit >= radix) return 0;
 
@@ -685,18 +661,16 @@ pxU64FromString32(pxu64* self, PxFormatOptions options, PxString32 string)
 }
 
 pxb8
-pxUWordFromString32(pxuword* self, PxFormatOptions options, PxString32 string)
+pxUWordFromString32(pxuword* self, pxuword radix, PxFormatOption options, PxString32 string)
 {
-    PxFormatFlag flags = options.flags;
-    pxu8         radix = options.radix;
-    pxiword      index = 0;
-    pxuword      temp  = 0;
+    pxiword index = 0;
+    pxuword temp  = 0;
 
     if (string.length <= 0) return 0;
 
     switch (string.memory[index]) {
         case PX_ASCII_PLUS: {
-            if ((flags & PX_FORMAT_FLAG_LEADING_PLUS) == 0)
+            if ((options & PX_FORMAT_OPTION_LEADING_PLUS) == 0)
                 return 0;
 
             index += 1;
@@ -705,7 +679,7 @@ pxUWordFromString32(pxuword* self, PxFormatOptions options, PxString32 string)
         default: break;
     }
 
-    if ((flags & PX_FORMAT_FLAG_LEADING_ZERO) == 0) {
+    if ((options & PX_FORMAT_OPTION_LEADING_ZERO) == 0) {
         pxi32 unicode = string.memory[index];
 
         if (string.length > index + 1 && unicode == PX_ASCII_ZERO)
@@ -713,7 +687,8 @@ pxUWordFromString32(pxuword* self, PxFormatOptions options, PxString32 string)
     }
 
     for (; index < string.length; index += 1) {
-        pxu8 digit = pxAsciiValueFromDigit(string.memory[index], radix);
+        pxu8 digit = pxAsciiValueFromDigit(string.memory[index], radix,
+            options & PX_FORMAT_OPTION_UPPER_CASE);
 
         if (digit < 0 || digit >= radix) return 0;
 
@@ -729,19 +704,17 @@ pxUWordFromString32(pxuword* self, PxFormatOptions options, PxString32 string)
 }
 
 pxb8
-pxI8FromString32(pxi8* self, PxFormatOptions options, PxString32 string)
+pxI8FromString32(pxi8* self, pxuword radix, PxFormatOption options, PxString32 string)
 {
-    PxFormatFlag flags = options.flags;
-    pxi8         radix = options.radix;
-    pxiword      index = 0;
-    pxi8         temp  = 0;
-    pxb8         sign  = 0;
+    pxiword index = 0;
+    pxi8    temp  = 0;
+    pxb8    sign  = 0;
 
     if (string.length <= 0) return 0;
 
     switch (string.memory[index]) {
         case PX_ASCII_PLUS: {
-            if ((flags & PX_FORMAT_FLAG_LEADING_PLUS) == 0)
+            if ((options & PX_FORMAT_OPTION_LEADING_PLUS) == 0)
                 return 0;
 
             index += 1;
@@ -755,7 +728,7 @@ pxI8FromString32(pxi8* self, PxFormatOptions options, PxString32 string)
         default: break;
     }
 
-    if ((flags & PX_FORMAT_FLAG_LEADING_ZERO) == 0) {
+    if ((options & PX_FORMAT_OPTION_LEADING_ZERO) == 0) {
         pxi32 unicode = string.memory[index];
 
         if (string.length > index + 1 && unicode == PX_ASCII_ZERO)
@@ -763,20 +736,21 @@ pxI8FromString32(pxi8* self, PxFormatOptions options, PxString32 string)
     }
 
     for (; index < string.length; index += 1) {
-        pxu8 digit = pxAsciiValueFromDigit(string.memory[index], radix);
+        pxu8 digit = pxAsciiValueFromDigit(string.memory[index], radix,
+            options & PX_FORMAT_OPTION_UPPER_CASE);
 
         if (digit < 0 || digit >= radix) return 0;
 
         switch (sign) {
             case 0: {
-                if (temp > (PX_I8_MAX - digit) / radix)
+                if (temp > (PX_I8_MAX - digit) / pxCast(pxiword, radix))
                     return 0;
 
                 temp = temp * radix + digit;
             } break;
 
             case 1: {
-                if (temp < (PX_I8_MIN + digit) / radix)
+                if (temp < (PX_I8_MIN + digit) / pxCast(pxiword, radix))
                     return 0;
 
                 temp = temp * radix - digit;
@@ -792,19 +766,17 @@ pxI8FromString32(pxi8* self, PxFormatOptions options, PxString32 string)
 }
 
 pxb8
-pxI16FromString32(pxi16* self, PxFormatOptions options, PxString32 string)
+pxI16FromString32(pxi16* self, pxuword radix, PxFormatOption options, PxString32 string)
 {
-    PxFormatFlag flags = options.flags;
-    pxi8         radix = options.radix;
-    pxiword      index = 0;
-    pxi16        temp  = 0;
-    pxb8         sign  = 0;
+    pxiword index = 0;
+    pxi16   temp  = 0;
+    pxb8    sign  = 0;
 
     if (string.length <= 0) return 0;
 
     switch (string.memory[index]) {
         case PX_ASCII_PLUS: {
-            if ((flags & PX_FORMAT_FLAG_LEADING_PLUS) == 0)
+            if ((options & PX_FORMAT_OPTION_LEADING_PLUS) == 0)
                 return 0;
 
             index += 1;
@@ -818,7 +790,7 @@ pxI16FromString32(pxi16* self, PxFormatOptions options, PxString32 string)
         default: break;
     }
 
-    if ((flags & PX_FORMAT_FLAG_LEADING_ZERO) == 0) {
+    if ((options & PX_FORMAT_OPTION_LEADING_ZERO) == 0) {
         pxi32 unicode = string.memory[index];
 
         if (string.length > index + 1 && unicode == PX_ASCII_ZERO)
@@ -826,20 +798,21 @@ pxI16FromString32(pxi16* self, PxFormatOptions options, PxString32 string)
     }
 
     for (; index < string.length; index += 1) {
-        pxu8 digit = pxAsciiValueFromDigit(string.memory[index], radix);
+        pxu8 digit = pxAsciiValueFromDigit(string.memory[index], radix,
+            options & PX_FORMAT_OPTION_UPPER_CASE);
 
         if (digit < 0 || digit >= radix) return 0;
 
         switch (sign) {
             case 0: {
-                if (temp > (PX_I16_MAX - digit) / radix)
+                if (temp > (PX_I16_MAX - digit) / pxCast(pxiword, radix))
                     return 0;
 
                 temp = temp * radix + digit;
             } break;
 
             case 1: {
-                if (temp < (PX_I16_MIN + digit) / radix)
+                if (temp < (PX_I16_MIN + digit) / pxCast(pxiword, radix))
                     return 0;
 
                 temp = temp * radix - digit;
@@ -855,19 +828,17 @@ pxI16FromString32(pxi16* self, PxFormatOptions options, PxString32 string)
 }
 
 pxb8
-pxI32FromString32(pxi32* self, PxFormatOptions options, PxString32 string)
+pxI32FromString32(pxi32* self, pxuword radix, PxFormatOption options, PxString32 string)
 {
-    PxFormatFlag flags = options.flags;
-    pxi8         radix = options.radix;
-    pxiword      index = 0;
-    pxi32        temp  = 0;
-    pxb8         sign  = 0;
+    pxiword index = 0;
+    pxi32   temp  = 0;
+    pxb8    sign  = 0;
 
     if (string.length <= 0) return 0;
 
     switch (string.memory[index]) {
         case PX_ASCII_PLUS: {
-            if ((flags & PX_FORMAT_FLAG_LEADING_PLUS) == 0)
+            if ((options & PX_FORMAT_OPTION_LEADING_PLUS) == 0)
                 return 0;
 
             index += 1;
@@ -881,7 +852,7 @@ pxI32FromString32(pxi32* self, PxFormatOptions options, PxString32 string)
         default: break;
     }
 
-    if ((flags & PX_FORMAT_FLAG_LEADING_ZERO) == 0) {
+    if ((options & PX_FORMAT_OPTION_LEADING_ZERO) == 0) {
         pxi32 unicode = string.memory[index];
 
         if (string.length > index + 1 && unicode == PX_ASCII_ZERO)
@@ -889,20 +860,21 @@ pxI32FromString32(pxi32* self, PxFormatOptions options, PxString32 string)
     }
 
     for (; index < string.length; index += 1) {
-        pxu8 digit = pxAsciiValueFromDigit(string.memory[index], radix);
+        pxu8 digit = pxAsciiValueFromDigit(string.memory[index], radix,
+            options & PX_FORMAT_OPTION_UPPER_CASE);
 
         if (digit < 0 || digit >= radix) return 0;
 
         switch (sign) {
             case 0: {
-                if (temp > (PX_I32_MAX - digit) / radix)
+                if (temp > (PX_I32_MAX - digit) / pxCast(pxiword, radix))
                     return 0;
 
                 temp = temp * radix + digit;
             } break;
 
             case 1: {
-                if (temp < (PX_I32_MIN + digit) / radix)
+                if (temp < (PX_I32_MIN + digit) / pxCast(pxiword, radix))
                     return 0;
 
                 temp = temp * radix - digit;
@@ -918,19 +890,17 @@ pxI32FromString32(pxi32* self, PxFormatOptions options, PxString32 string)
 }
 
 pxb8
-pxI64FromString32(pxi64* self, PxFormatOptions options, PxString32 string)
+pxI64FromString32(pxi64* self, pxuword radix, PxFormatOption options, PxString32 string)
 {
-    PxFormatFlag flags = options.flags;
-    pxi8         radix = options.radix;
-    pxiword      index = 0;
-    pxi64        temp  = 0;
-    pxb8         sign  = 0;
+    pxiword index = 0;
+    pxi64   temp  = 0;
+    pxb8    sign  = 0;
 
     if (string.length <= 0) return 0;
 
     switch (string.memory[index]) {
         case PX_ASCII_PLUS: {
-            if ((flags & PX_FORMAT_FLAG_LEADING_PLUS) == 0)
+            if ((options & PX_FORMAT_OPTION_LEADING_PLUS) == 0)
                 return 0;
 
             index += 1;
@@ -944,7 +914,7 @@ pxI64FromString32(pxi64* self, PxFormatOptions options, PxString32 string)
         default: break;
     }
 
-    if ((flags & PX_FORMAT_FLAG_LEADING_ZERO) == 0) {
+    if ((options & PX_FORMAT_OPTION_LEADING_ZERO) == 0) {
         pxi32 unicode = string.memory[index];
 
         if (string.length > index + 1 && unicode == PX_ASCII_ZERO)
@@ -952,20 +922,21 @@ pxI64FromString32(pxi64* self, PxFormatOptions options, PxString32 string)
     }
 
     for (; index < string.length; index += 1) {
-        pxu8 digit = pxAsciiValueFromDigit(string.memory[index], radix);
+        pxu8 digit = pxAsciiValueFromDigit(string.memory[index], radix,
+            options & PX_FORMAT_OPTION_UPPER_CASE);
 
         if (digit < 0 || digit >= radix) return 0;
 
         switch (sign) {
             case 0: {
-                if (temp > (PX_I64_MAX - digit) / radix)
+                if (temp > (PX_I64_MAX - digit) / pxCast(pxiword, radix))
                     return 0;
 
                 temp = temp * radix + digit;
             } break;
 
             case 1: {
-                if (temp < (PX_I64_MIN + digit) / radix)
+                if (temp < (PX_I64_MIN + digit) / pxCast(pxiword, radix))
                     return 0;
 
                 temp = temp * radix - digit;
@@ -981,19 +952,17 @@ pxI64FromString32(pxi64* self, PxFormatOptions options, PxString32 string)
 }
 
 pxb8
-pxIWordFromString32(pxiword* self, PxFormatOptions options, PxString32 string)
+pxIWordFromString32(pxiword* self, pxuword radix, PxFormatOption options, PxString32 string)
 {
-    PxFormatFlag flags = options.flags;
-    pxi8         radix = options.radix;
-    pxiword      index = 0;
-    pxiword      temp  = 0;
-    pxb8         sign  = 0;
+    pxiword index = 0;
+    pxiword temp  = 0;
+    pxb8    sign  = 0;
 
     if (string.length <= 0) return 0;
 
     switch (string.memory[index]) {
         case PX_ASCII_PLUS: {
-            if ((flags & PX_FORMAT_FLAG_LEADING_PLUS) == 0)
+            if ((options & PX_FORMAT_OPTION_LEADING_PLUS) == 0)
                 return 0;
 
             index += 1;
@@ -1007,7 +976,7 @@ pxIWordFromString32(pxiword* self, PxFormatOptions options, PxString32 string)
         default: break;
     }
 
-    if ((flags & PX_FORMAT_FLAG_LEADING_ZERO) == 0) {
+    if ((options & PX_FORMAT_OPTION_LEADING_ZERO) == 0) {
         pxi32 unicode = string.memory[index];
 
         if (string.length > index + 1 && unicode == PX_ASCII_ZERO)
@@ -1015,20 +984,21 @@ pxIWordFromString32(pxiword* self, PxFormatOptions options, PxString32 string)
     }
 
     for (; index < string.length; index += 1) {
-        pxu8 digit = pxAsciiValueFromDigit(string.memory[index], radix);
+        pxu8 digit = pxAsciiValueFromDigit(string.memory[index], radix,
+            options & PX_FORMAT_OPTION_UPPER_CASE);
 
         if (digit < 0 || digit >= radix) return 0;
 
         switch (sign) {
             case 0: {
-                if (temp > (PX_IWORD_MAX - digit) / radix)
+                if (temp > (PX_IWORD_MAX - digit) / pxCast(pxiword, radix))
                     return 0;
 
                 temp = temp * radix + digit;
             } break;
 
             case 1: {
-                if (temp < (PX_IWORD_MIN + digit) / radix)
+                if (temp < (PX_IWORD_MIN + digit) / pxCast(pxiword, radix))
                     return 0;
 
                 temp = temp * radix - digit;

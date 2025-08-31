@@ -31,11 +31,11 @@ main(int argc, char** argv)
 
     PxReader reader = pxBufferReader(&source, &buffer);
 
-    pxBuffer8WriteStringTail(&source, pxs8("ciao\narrivederci"));
+    pxBuffer8WriteString8Tail(&source, pxs8("ciao\narrivederci"));
 
     readBytePerByte(&reader);
 
-    pxBuffer8WriteStringTail(&source, pxs8("ciao\narrivederci"));
+    pxBuffer8WriteString8Tail(&source, pxs8("ciao\narrivederci"));
 
     PxString8 line = pxReaderLine(&reader, &arena, 16);
 
