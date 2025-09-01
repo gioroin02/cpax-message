@@ -18,6 +18,21 @@
     #define __pxSocketTcpWriteMemory__ pxWindowsSocketTcpWriteMemory
     #define __pxSocketTcpReadMemory__  pxWindowsSocketTcpReadMemory
 
+#elif PX_SYSTEM == PX_SYSTEM_LINUX
+
+    #include "../../linux/network/socket_tcp.c"
+
+    #define __pxSocketTcpCreate__      pxLinuxSocketTcpCreate
+    #define __pxSocketTcpDestroy__     pxLinuxSocketTcpDestroy
+    #define __pxSocketTcpGetAddress__  pxLinuxSocketTcpGetAddress
+    #define __pxSocketTcpGetPort__     pxLinuxSocketTcpGetPort
+    #define __pxSocketTcpBind__        pxLinuxSocketTcpBind
+    #define __pxSocketTcpListen__      pxLinuxSocketTcpListen
+    #define __pxSocketTcpConnect__     pxLinuxSocketTcpConnect
+    #define __pxSocketTcpAccept__      pxLinuxSocketTcpAccept
+    #define __pxSocketTcpWriteMemory__ pxLinuxSocketTcpWriteMemory
+    #define __pxSocketTcpReadMemory__  pxLinuxSocketTcpReadMemory
+
 #else
 
     #error "Unknown platform"

@@ -10,6 +10,13 @@
     #define __pxNetworkStart__ pxWindowsNetworkStart
     #define __pxNetworkStop__  pxWindowsNetworkStop
 
+#elif PX_SYSTEM == PX_SYSTEM_LINUX
+
+    #include "../../linux/network/system.c"
+
+    #define __pxNetworkStart__ pxLinuxNetworkStart
+    #define __pxNetworkStop__  pxLinuxNetworkStop
+
 #else
 
     #error "Unknown platform"

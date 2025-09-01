@@ -20,6 +20,23 @@
     #define __pxSocketUdpReadMemory__      pxWindowsSocketUdpReadMemory
     #define __pxSocketUdpReadHostMemory__  pxWindowsSocketUdpReadHostMemory
 
+#elif PX_SYSTEM == PX_SYSTEM_LINUX
+
+    #include "../../linux/network/socket_udp.c"
+
+    #define __pxSocketUdpCreate__          pxLinuxSocketUdpCreate
+    #define __pxSocketUdpDestroy__         pxLinuxSocketUdpDestroy
+    #define __pxSocketUdpGetAddress__      pxLinuxSocketUdpGetAddress
+    #define __pxSocketUdpGetPort__         pxLinuxSocketUdpGetPort
+    #define __pxSocketUdpBind__            pxLinuxSocketUdpBind
+    #define __pxSocketUdpListen__          pxLinuxSocketUdpListen
+    #define __pxSocketUdpConnect__         pxLinuxSocketUdpConnect
+    #define __pxSocketUdpAccept__          pxLinuxSocketUdpAccept
+    #define __pxSocketUdpWriteMemory__     pxLinuxSocketUdpWriteMemory
+    #define __pxSocketUdpWriteHostMemory__ pxLinuxSocketUdpWriteHostMemory
+    #define __pxSocketUdpReadMemory__      pxLinuxSocketUdpReadMemory
+    #define __pxSocketUdpReadHostMemory__  pxLinuxSocketUdpReadHostMemory
+
 #else
 
     #error "Unknown platform"
